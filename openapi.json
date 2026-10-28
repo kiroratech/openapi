@@ -3676,12 +3676,21 @@
           "epilogue",
           "noto-sans",
           "space-grotesk",
+          "plus-jakarta-sans",
+          "outfit",
+          "bricolage-grotesque",
+          "sora",
+          "ibm-plex-sans",
+          "geist",
           "space-mono",
           "playfair-display",
           "merriweather",
           "lora",
           "libre-baskerville",
-          "eb-garamond"
+          "eb-garamond",
+          "fraunces",
+          "source-serif-4",
+          "cormorant-garamond"
         ]
       },
       "EmailBlockStyleInput": {
@@ -3905,10 +3914,12 @@
             ]
           },
           "src": {
+            "description": "The logo image's URL.",
             "type": "string",
             "maxLength": 2048
           },
           "alt": {
+            "description": "The logo's alt text. Without `src`, it shows as a wordmark in the heading font; gallery samples set it to `{{ org.name }}`.",
             "type": "string",
             "maxLength": 100000
           },
@@ -17267,12 +17278,21 @@
           "epilogue",
           "noto-sans",
           "space-grotesk",
+          "plus-jakarta-sans",
+          "outfit",
+          "bricolage-grotesque",
+          "sora",
+          "ibm-plex-sans",
+          "geist",
           "space-mono",
           "playfair-display",
           "merriweather",
           "lora",
           "libre-baskerville",
-          "eb-garamond"
+          "eb-garamond",
+          "fraunces",
+          "source-serif-4",
+          "cormorant-garamond"
         ]
       },
       "EmailBlockStyle": {
@@ -17496,10 +17516,12 @@
             ]
           },
           "src": {
+            "description": "The logo image's URL.",
             "type": "string",
             "maxLength": 2048
           },
           "alt": {
+            "description": "The logo's alt text. Without `src`, it shows as a wordmark in the heading font; gallery samples set it to `{{ org.name }}`.",
             "type": "string",
             "maxLength": 100000
           },
@@ -19607,16 +19629,24 @@
                     "type": "string",
                     "enum": [
                       "onboarding",
+                      "newsletters",
                       "announcements",
                       "promotions",
                       "ecommerce",
+                      "saas",
+                      "lead_nurture",
                       "events",
+                      "re_engagement",
                       "feedback",
+                      "celebrations",
+                      "referrals",
+                      "notices",
+                      "simple",
                       "transactional",
                       "seasonal"
                     ]
                   },
-                  "description": "What it is for, first where it is filed; `seasonal` tags holiday templates. `transactional` ones read a send's `data`, so they start API sends and journeys, not campaigns."
+                  "description": "What it is for, first where it is filed: welcome and onboarding, newsletters, announcements, promotions, e-commerce, SaaS and apps, lead nurture, events, re-engagement, feedback, celebrations, referrals and loyalty, notices and policy updates, simple emails or transactional; `seasonal` tags holiday templates. `transactional` ones read a send's `data`, so they start API sends and journeys, not campaigns."
                 },
                 "sampleData": {
                   "description": "Realistic values for the send's `data`, for previews: pass as `data` to `POST /v1/templates/render`.",
@@ -53578,7 +53608,7 @@
         "tags": [
           "templates"
         ],
-        "description": "Lists finished sample emails and coordinated theme presets, the same for every workspace. Start a template from a sample by creating it with the sample's `theme` and `blocks`; apply a preset by replacing a template's `theme`. The samples' photos are examples to replace, not images to send.\n\nRequires API-key scope: `templates:read`.",
+        "description": "Lists finished sample emails and coordinated theme presets. Start a template from a sample by creating it with the sample's `theme` and `blocks`; apply a preset by replacing a template's `theme`. Every sample has exactly one `header` block, id `logo`, holding the workspace's logo from its brand profile; without a logo it shows the workspace's name as a wordmark until one is added. The samples' photos are examples to replace, not images to send.\n\nRequires API-key scope: `templates:read`.",
         "security": [
           {
             "apiKeyAuth": []
