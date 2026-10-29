@@ -1016,7 +1016,10 @@
                     "channels": [
                       "email"
                     ],
-                    "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                    "allContacts": false,
+                    "listIds": [
+                      "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                    ],
                     "segmentId": null,
                     "audienceRules": null,
                     "topicId": null,
@@ -6534,10 +6537,20 @@
               "$ref": "#/components/schemas/ChannelInput"
             }
           },
-          "listId": {
-            "description": "Send to this list. Choose at most one audience.",
-            "type": "string",
-            "format": "uuid"
+          "allContacts": {
+            "description": "Send to all contacts: everyone its channels reach, with consent and suppressions applied as on any send. Choose at most one audience.",
+            "type": "boolean",
+            "const": true
+          },
+          "listIds": {
+            "description": "Send to these lists, up to 20: a member of any of them receives it once. Choose at most one audience.",
+            "minItems": 1,
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           },
           "segmentId": {
             "description": "Send to this segment. Choose at most one audience.",
@@ -6549,7 +6562,7 @@
             "$ref": "#/components/schemas/SegmentRulesInput"
           },
           "exclusions": {
-            "description": "Leave out the members of these lists and segments (\"don't send to\"); beside a `listId` or `segmentId` only, as rules exclude within themselves.",
+            "description": "Leave out the members of these lists and segments (\"don't send to\"); beside all contacts, lists or a segment, not rules, as rules exclude within themselves.",
             "anyOf": [
               {
                 "$ref": "#/components/schemas/CampaignExclusionsInput"
@@ -7123,12 +7136,21 @@
             "minLength": 1,
             "maxLength": 255
           },
-          "listId": {
-            "description": "The list to send to. To change audience, send both `listId` and `segmentId`, one of them `null`.",
+          "allContacts": {
+            "description": "Send to all contacts. Any audience field replaces the audience whole: the one set is the new audience, and `false` or `null` alone leaves it without one.",
+            "type": "boolean"
+          },
+          "listIds": {
+            "description": "Send to these lists, up to 20; replaces the audience whole.",
             "anyOf": [
               {
-                "type": "string",
-                "format": "uuid"
+                "minItems": 1,
+                "maxItems": 20,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               },
               {
                 "type": "null"
@@ -7136,7 +7158,7 @@
             ]
           },
           "segmentId": {
-            "description": "The segment to send to. To change audience, send both `listId` and `segmentId`, one of them `null`.",
+            "description": "Send to this segment; replaces the audience whole.",
             "anyOf": [
               {
                 "type": "string",
@@ -7148,7 +7170,7 @@
             ]
           },
           "audienceRules": {
-            "description": "Inline rules; cannot be combined with `listId` or `segmentId`.",
+            "description": "Send to contacts matching these rules; replaces the audience whole.",
             "anyOf": [
               {
                 "$ref": "#/components/schemas/SegmentRulesInput"
@@ -7159,7 +7181,7 @@
             ]
           },
           "exclusions": {
-            "description": "Lists and segments to leave out of its list or segment; `null` removes them.",
+            "description": "Lists and segments to leave out of its audience, beside all contacts, lists or a segment; `null` removes them.",
             "anyOf": [
               {
                 "$ref": "#/components/schemas/CampaignExclusionsInput"
@@ -8593,6 +8615,16 @@
                   "description": "One channel's choice each; a channel left out keeps its choice."
                 }
               ]
+            }
+          },
+          "lists": {
+            "description": "Names of lists to add the contact to, up to 20, matched without case; a list the workspace lacks is created. Adds only: the contact stays in the lists it is already in.",
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255
             }
           }
         },
@@ -15335,7 +15367,7 @@
             "description": "The exact address the message went to.",
             "type": "string"
           },
-          "q": {
+          "query": {
             "description": "Part of the recipient's email address or name, matched against the contact the message went to.",
             "type": "string",
             "minLength": 1,
@@ -21690,17 +21722,24 @@
             },
             "description": "The channels it sends on."
           },
-          "listId": {
+          "allContacts": {
+            "type": "boolean",
+            "description": "Whether it goes to all contacts: everyone its channels reach, with consent and suppressions applied as on any send."
+          },
+          "listIds": {
             "anyOf": [
               {
-                "type": "string",
-                "format": "uuid"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               },
               {
                 "type": "null"
               }
             ],
-            "description": "The list it goes to, if any."
+            "description": "The lists it goes to, if any: a member of any of them receives it once."
           },
           "segmentId": {
             "anyOf": [
@@ -21718,7 +21757,7 @@
             "examples": [
               "Newsletter subscribers"
             ],
-            "description": "The name of the list or segment it went to, once that list or segment has been deleted (its `listId` or `segmentId` is then `null`). Only a sent or cancelled campaign can lose its audience this way.",
+            "description": "The names of the lists or the segment it went to, once one of them has been deleted (the list leaves `listIds`, or `segmentId` becomes `null`). Only a sent or cancelled campaign can lose its audience this way.",
             "type": [
               "string",
               "null"
@@ -21744,7 +21783,7 @@
                 "type": "null"
               }
             ],
-            "description": "Lists and segments left out of its list or segment (\"don't send to\"); `null` for none."
+            "description": "Lists and segments left out of its audience (\"don't send to\"); `null` for none."
           },
           "topicId": {
             "anyOf": [
@@ -21901,7 +21940,8 @@
           "id",
           "name",
           "channels",
-          "listId",
+          "allContacts",
+          "listIds",
           "segmentId",
           "audienceName",
           "audienceRules",
@@ -21960,17 +22000,24 @@
             },
             "description": "The channels it sends on."
           },
-          "listId": {
+          "allContacts": {
+            "type": "boolean",
+            "description": "Whether it goes to all contacts: everyone its channels reach, with consent and suppressions applied as on any send."
+          },
+          "listIds": {
             "anyOf": [
               {
-                "type": "string",
-                "format": "uuid"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               },
               {
                 "type": "null"
               }
             ],
-            "description": "The list it goes to, if any."
+            "description": "The lists it goes to, if any: a member of any of them receives it once."
           },
           "segmentId": {
             "anyOf": [
@@ -21988,7 +22035,7 @@
             "examples": [
               "Newsletter subscribers"
             ],
-            "description": "The name of the list or segment it went to, once that list or segment has been deleted (its `listId` or `segmentId` is then `null`). Only a sent or cancelled campaign can lose its audience this way.",
+            "description": "The names of the lists or the segment it went to, once one of them has been deleted (the list leaves `listIds`, or `segmentId` becomes `null`). Only a sent or cancelled campaign can lose its audience this way.",
             "type": [
               "string",
               "null"
@@ -22014,7 +22061,7 @@
                 "type": "null"
               }
             ],
-            "description": "Lists and segments left out of its list or segment (\"don't send to\"); `null` for none."
+            "description": "Lists and segments left out of its audience (\"don't send to\"); `null` for none."
           },
           "topicId": {
             "anyOf": [
@@ -22133,7 +22180,8 @@
           "id",
           "name",
           "channels",
-          "listId",
+          "allContacts",
+          "listIds",
           "segmentId",
           "audienceName",
           "audienceRules",
@@ -34272,7 +34320,7 @@
             "maxLength": 320,
             "format": "email"
           },
-          "q": {
+          "query": {
             "description": "Part of the recipient's email address or name, matched against the contact the message went to.",
             "type": "string",
             "minLength": 1,
@@ -34787,7 +34835,7 @@
         "tags": [
           "contacts"
         ],
-        "description": "Returns contacts in this workspace. To read one contact by its email address or your own id, use `GET /v1/contacts/{id}` with `idType`. `q` searches: it matches any part of the email address or name, ignoring case. `consent`, `suppressed`, `listId`, `segmentId`, `createdAfter` (inclusive) and `createdBefore` (exclusive) narrow the list and combine with each other and with `q`; an unknown list or segment is a 404. Each item is shaped like a single contact read: it carries its email suppression and the lists it is in (`listIds`). `meta.count` counts every contact matching the filters, up to 10000: beyond that it reports the cap and `meta.countExact` is `false`; both are counted on the first page only (null with a `cursor`). Results are newest first and cursor-paginated: pass `meta.pagination.nextCursor` back as `cursor` until it comes back `null`. The cursor is opaque — do not construct or parse one.\n\nRequires API-key scope: `contacts:read`.",
+        "description": "Returns contacts in this workspace. To read one contact by its email address or your own id, use `GET /v1/contacts/{id}` with `idType`. `query` searches: it matches any part of the email address or name, ignoring case. `consent`, `suppressed`, `listId`, `segmentId`, `createdAfter` (inclusive) and `createdBefore` (exclusive) narrow the list and combine with each other and with `query`; an unknown list or segment is a 404. Each item is shaped like a single contact read: it carries its email suppression and the lists it is in (`listIds`). `meta.count` counts every contact matching the filters, up to 10000: beyond that it reports the cap and `meta.countExact` is `false`; both are counted on the first page only (null with a `cursor`). Results are newest first and cursor-paginated: pass `meta.pagination.nextCursor` back as `cursor` until it comes back `null`. The cursor is opaque — do not construct or parse one.\n\nRequires API-key scope: `contacts:read`.",
         "parameters": [
           {
             "schema": {
@@ -34819,7 +34867,7 @@
               "maxLength": 100
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Searches any part of the email address or name, ignoring case and accents in any script."
           },
@@ -37050,7 +37098,7 @@
               "maxLength": 200
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the segment's name, ignoring case."
           },
@@ -39109,7 +39157,7 @@
         "tags": [
           "events"
         ],
-        "description": "Every event the workspace tracked, accepted or rejected, newest first: did an integration's event arrive, and if not, why? Accepted events are ordered and filtered by when they happened, rejected ones by when they arrived; the log reaches back `meta.retention`. A rejected event is a tracked event the API refused (validation, an unknown contact, the name limit, a deleted name), kept as sent with the error it answered; a batch refused whole is listed event by event. A request refused before its body was read (credentials, rate limit, plan, size, broken JSON) is not kept. `q` matches an event name exactly, or a contact's id, email address or external id (accepted events only: a rejected one has no contact); property values are not searched. Complete, not sampled. For a member, a property whose key is a masked attribute is left out, as on contact reads.\n\nRequires API-key scope: `events:read`.",
+        "description": "Every event the workspace tracked, accepted or rejected, newest first: did an integration's event arrive, and if not, why? Accepted events are ordered and filtered by when they happened, rejected ones by when they arrived; the log reaches back `meta.retention`. A rejected event is a tracked event the API refused (validation, an unknown contact, the name limit, a deleted name), kept as sent with the error it answered; a batch refused whole is listed event by event. A request refused before its body was read (credentials, rate limit, plan, size, broken JSON) is not kept. `query` matches an event name exactly, or a contact's id, email address or external id (accepted events only: a rejected one has no contact); property values are not searched. Complete, not sampled. For a member, a property whose key is a masked attribute is left out, as on contact reads.\n\nRequires API-key scope: `events:read`.",
         "parameters": [
           {
             "schema": {
@@ -39185,7 +39233,7 @@
               "maxLength": 320
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "An event name, exactly as tracked, or a contact's id, email address or external id. Property values are not searched."
           },
@@ -39397,7 +39445,7 @@
         "tags": [
           "events"
         ],
-        "description": "The workspace's event names, for the data index and for trigger, rule and goal pickers: Kirora's system names, each name the workspace has sent, and each one a person defined before sending it. Each has its `origin` (`system`, `standard` or `custom`), whether it has events (`recorded`), its description, when it was last seen, its last 30 days and how many journeys, segments, campaigns and goals read it. The figures are counted at most 15 minutes before `meta.countedAt`; a name sent for the first time is listed at once. `q`, `origin` and `recorded` filter, and `sort` orders, across every page. Standard names not yet sent are in `GET /events/standard-names`. Only the first page has `meta.nameUsage`: the names counted against the workspace's limit of 1,000, defined ones included; past it a new name is refused with `EVENT_NAME_LIMIT_REACHED`.\n\nRequires API-key scope: `events:read`.",
+        "description": "The workspace's event names, for the data index and for trigger, rule and goal pickers: Kirora's system names, each name the workspace has sent, and each one a person defined before sending it. Each has its `origin` (`system`, `standard` or `custom`), whether it has events (`recorded`), its description, when it was last seen, its last 30 days and how many journeys, segments, campaigns and goals read it. The figures are counted at most 15 minutes before `meta.countedAt`; a name sent for the first time is listed at once. `query`, `origin` and `recorded` filter, and `sort` orders, across every page. Standard names not yet sent are in `GET /events/standard-names`. Only the first page has `meta.nameUsage`: the names counted against the workspace's limit of 1,000, defined ones included; past it a new name is refused with `EVENT_NAME_LIMIT_REACHED`.\n\nRequires API-key scope: `events:read`.",
         "parameters": [
           {
             "schema": {
@@ -39429,7 +39477,7 @@
               "maxLength": 128
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Only names containing this, ignoring case."
           },
@@ -40364,7 +40412,7 @@
               "maxLength": 255
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the list's name, ignoring case."
           },
@@ -40850,7 +40898,7 @@
         "tags": [
           "lists"
         ],
-        "description": "Deletes the list and its membership records. The contacts themselves are not deleted. Refused with one 409 `IN_USE` naming everything that blocks it, in the shape of `getListUsage`: campaigns not yet sent or cancelled (A/B tests included) whose audience, rules or exclusions name it (`details.campaigns`), published forms that add submitters to it or name it in a field (`details.forms`): without the list a form refuses every submission. Also active or paused journeys (`details.journeys`) and segments whose rules name it (`details.segments`): a \"not in this list\" rule must not outlive the list. Change or end those first. A sent or cancelled campaign does not block it: the campaign keeps its recipients and messages, its `listId` becomes `null` and `audienceName` keeps the list name.\n\nRequires API-key scope: `lists:write`.",
+        "description": "Deletes the list and its membership records. The contacts themselves are not deleted. Refused with one 409 `IN_USE` naming everything that blocks it, in the shape of `getListUsage`: campaigns not yet sent or cancelled (A/B tests included) whose audience, rules or exclusions name it (`details.campaigns`), published forms that add submitters to it or name it in a field (`details.forms`): without the list a form refuses every submission. Also active or paused journeys (`details.journeys`) and segments whose rules name it (`details.segments`): a \"not in this list\" rule must not outlive the list. Change or end those first. A sent or cancelled campaign does not block it: the campaign keeps its recipients and messages, the list leaves its `listIds` (`null` once none is left) and `audienceName` keeps the names of the lists it went to.\n\nRequires API-key scope: `lists:write`.",
         "parameters": [
           {
             "schema": {
@@ -41382,7 +41430,7 @@
               "maxLength": 200
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the segment's name, ignoring case."
           },
@@ -43668,7 +43716,7 @@
         "tags": [
           "attributes"
         ],
-        "description": "Lists every attribute key your contacts carry, with its inferred type and how many contacts have it: the pickers for segment rules and merge tags. Read from an index up to five minutes old (a contact import refreshes it at once). A `list` key takes `contains`, `notContains`, `exists` and `notExists` in rules. `masked` says whether the workspace hides the key's values from members and embed sessions; an API key sees them either way. `description` is what an admin wrote the key means. `q` and `type` filter across every page; keys come in key order.\n\nRequires API-key scope: `attributes:read`.",
+        "description": "Lists every attribute key your contacts carry, with its inferred type and how many contacts have it: the pickers for segment rules and merge tags. Read from an index up to five minutes old (a contact import refreshes it at once). A `list` key takes `contains`, `notContains`, `exists` and `notExists` in rules. `masked` says whether the workspace hides the key's values from members and embed sessions; an API key sees them either way. `description` is what an admin wrote the key means. `query` and `type` filter across every page; keys come in key order.\n\nRequires API-key scope: `attributes:read`.",
         "parameters": [
           {
             "schema": {
@@ -43700,7 +43748,7 @@
               "maxLength": 128
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Only keys containing this, ignoring case."
           },
@@ -44153,7 +44201,7 @@
               "maxLength": 64
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the tag's name, ignoring case: what a picker types."
           },
@@ -45503,7 +45551,7 @@
               "maxLength": 200
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the campaign's name, ignoring case."
           },
@@ -45614,7 +45662,10 @@
                           "channels": [
                             "email"
                           ],
-                          "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                          "allContacts": false,
+                          "listIds": [
+                            "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                          ],
                           "segmentId": null,
                           "audienceName": null,
                           "audienceRules": null,
@@ -45707,7 +45758,9 @@
                     "channels": [
                       "email"
                     ],
-                    "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                    "listIds": [
+                      "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                    ],
                     "messageLimits": {
                       "apply": true,
                       "retryFor": {
@@ -45758,7 +45811,7 @@
                     "channels": [
                       "email"
                     ],
-                    "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                    "allContacts": true,
                     "content": {
                       "email": {
                         "subject": "New this month at Acme Shop",
@@ -45809,7 +45862,9 @@
                     "channels": [
                       "email"
                     ],
-                    "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                    "listIds": [
+                      "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                    ],
                     "messageLimits": {
                       "apply": true,
                       "retryFor": {
@@ -45913,7 +45968,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -45987,7 +46045,8 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": true,
+                        "listIds": null,
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -46061,7 +46120,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -46269,7 +46331,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -46487,7 +46552,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -47044,7 +47112,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -47121,7 +47192,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -47313,7 +47387,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -47492,7 +47569,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -47729,7 +47809,8 @@
                             "email"
                           ],
                           "status": "sent",
-                          "listId": null,
+                          "allContacts": false,
+                          "listIds": null,
                           "segmentId": null,
                           "audienceName": null,
                           "audienceRules": null,
@@ -47930,7 +48011,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -48132,7 +48216,10 @@
                           "channels": [
                             "email"
                           ],
-                          "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                          "allContacts": false,
+                          "listIds": [
+                            "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                          ],
                           "segmentId": null,
                           "audienceName": null,
                           "audienceRules": null,
@@ -48314,7 +48401,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -48494,7 +48584,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -48692,7 +48785,10 @@
                         "channels": [
                           "email"
                         ],
-                        "listId": "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e",
+                        "allContacts": false,
+                        "listIds": [
+                          "0192f3a2-1b3c-7e5d-8a21-4f6a7b8c9d0e"
+                        ],
                         "segmentId": null,
                         "audienceName": null,
                         "audienceRules": null,
@@ -49439,7 +49535,7 @@
               "maxLength": 200
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the journey's name, ignoring case."
           },
@@ -52661,7 +52757,7 @@
               "maxLength": 200
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the template's name, ignoring case."
           },
@@ -56006,7 +56102,7 @@
         "tags": [
           "assets"
         ],
-        "description": "Lists the files uploaded or copied into this workspace for email content, newest first; `q` matches part of the name or the file name. Place one in a template by its `url`.\n\nRequires API-key scope: `templates:read`.",
+        "description": "Lists the files uploaded or copied into this workspace for email content, newest first; `query` matches part of the name or the file name. Place one in a template by its `url`.\n\nRequires API-key scope: `templates:read`.",
         "parameters": [
           {
             "schema": {
@@ -56038,7 +56134,7 @@
               "maxLength": 200
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the name or the file name, ignoring case."
           },
@@ -56798,7 +56894,7 @@
               "maxLength": 200
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the form's name, ignoring case."
           },
@@ -58801,7 +58897,7 @@
         "tags": [
           "messages"
         ],
-        "description": "Lists the workspace message log: one row per outbound message from campaigns, journeys and transactional sends, newest first, whether it was sent, is still queued, or was skipped or failed. `campaign` and `journey` say where a row came from (neither, for a transactional send), and `bounce`, `failure` or `skip` what became of it.\n\n**Filters.** `recipient` matches the address a message was sent to, and also email messages not yet given one (queued, or skipped before sending) whose contact's current email is that address. Messages past the retention period name no one and match no `recipient`. `q` is a search: part of the recipient's address or name, matched against the contact each message went to. `campaignId` and `journeyId` narrow to one source, and `stepId` with `journeyId` to one step of the journey, in every version of its steps. `templateId` and `correlationId` narrow to transactional sends, from one stored template or carrying your own reference. `opened` and `clicked` split by engagement. `createdAfter` is inclusive and `createdBefore` exclusive. No total is returned.\n\nRequires API-key scope: `messages:read`.",
+        "description": "Lists the workspace message log: one row per outbound message from campaigns, journeys and transactional sends, newest first, whether it was sent, is still queued, or was skipped or failed. `campaign` and `journey` say where a row came from (neither, for a transactional send), and `bounce`, `failure` or `skip` what became of it.\n\n**Filters.** `recipient` matches the address a message was sent to, and also email messages not yet given one (queued, or skipped before sending) whose contact's current email is that address. Messages past the retention period name no one and match no `recipient`. `query` is a search: part of the recipient's address or name, matched against the contact each message went to. `campaignId` and `journeyId` narrow to one source, and `stepId` with `journeyId` to one step of the journey, in every version of its steps. `templateId` and `correlationId` narrow to transactional sends, from one stored template or carrying your own reference. `opened` and `clicked` split by engagement. `createdAfter` is inclusive and `createdBefore` exclusive. No total is returned.\n\nRequires API-key scope: `messages:read`.",
         "parameters": [
           {
             "schema": {
@@ -58870,7 +58966,7 @@
               "maxLength": 100
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Part of the recipient's email address or name, matched against the contact the message went to."
           },
@@ -59562,7 +59658,7 @@
         "tags": [
           "messages"
         ],
-        "description": "Queues a CSV of the message log. The body takes the filters of `GET /v1/messages` (`status`, `channel`, `recipient`, `q`, `messageType`, `campaignId`, `journeyId`, `stepId`, `templateId`, `correlationId`, `createdAfter`, `createdBefore`; not `opened` or `clicked`) and applies them the same way; send `{}` for every message. A filter matching no message is refused with `NOTHING_TO_EXPORT`. The file is generated in the background: poll the export until `status` is `ready`, then download it. Any key of the workspace with `messages:read` can read the export.\n\nRequires API-key scope: `messages:read`.",
+        "description": "Queues a CSV of the message log. The body takes the filters of `GET /v1/messages` (`status`, `channel`, `recipient`, `query`, `messageType`, `campaignId`, `journeyId`, `stepId`, `templateId`, `correlationId`, `createdAfter`, `createdBefore`; not `opened` or `clicked`) and applies them the same way; send `{}` for every message. A filter matching no message is refused with `NOTHING_TO_EXPORT`. The file is generated in the background: poll the export until `status` is `ready`, then download it. Any key of the workspace with `messages:read` can read the export.\n\nRequires API-key scope: `messages:read`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -59912,7 +60008,7 @@
         "tags": [
           "suppressions"
         ],
-        "description": "Lists the email addresses this workspace blocks, newest first, whether or not a contact still exists for each. Filter by `email` to check one address exactly (normalised as stored), by `q` to match any part of the address, by `reason`, or by `createdAfter` and `createdBefore` (half-open) to keep another system in step with the blocks made since a time.\n\nWhat each reason blocks:\n\n| Reason | Marketing email | Transactional email | Sister workspaces | Deletable |\n| --- | --- | --- | --- | --- |\n| `manual`, `imported` | Blocked | Sent | No | Yes |\n| `unsubscribed` | Blocked | Sent | No | No: lifted when the person resubscribes |\n| `complained` | Blocked | Sent | Marketing blocked | No |\n| `bounced` | Blocked | Blocked | All email blocked | No |\n| `complained_transactional` | Blocked | Blocked | All email blocked | No |\n\nSister workspaces are those with the same owner or partner. The list holds only this workspace's own blocks: an address blocked by a sister workspace's bounce is not listed here, yet every send to it is skipped. For the effective answer for one contact, read its `emailSuppression` (reason `other_workspace` for such a block).\n\nRequires API-key scope: `suppressions:read`.",
+        "description": "Lists the email addresses this workspace blocks, newest first, whether or not a contact still exists for each. Filter by `email` to check one address exactly (normalised as stored), by `query` to match any part of the address, by `reason`, or by `createdAfter` and `createdBefore` (half-open) to keep another system in step with the blocks made since a time.\n\nWhat each reason blocks:\n\n| Reason | Marketing email | Transactional email | Sister workspaces | Deletable |\n| --- | --- | --- | --- | --- |\n| `manual`, `imported` | Blocked | Sent | No | Yes |\n| `unsubscribed` | Blocked | Sent | No | No: lifted when the person resubscribes |\n| `complained` | Blocked | Sent | Marketing blocked | No |\n| `bounced` | Blocked | Blocked | All email blocked | No |\n| `complained_transactional` | Blocked | Blocked | All email blocked | No |\n\nSister workspaces are those with the same owner or partner. The list holds only this workspace's own blocks: an address blocked by a sister workspace's bounce is not listed here, yet every send to it is skipped. For the effective answer for one contact, read its `emailSuppression` (reason `other_workspace` for such a block).\n\nRequires API-key scope: `suppressions:read`.",
         "parameters": [
           {
             "schema": {
@@ -59953,7 +60049,7 @@
               "maxLength": 320
             },
             "in": "query",
-            "name": "q",
+            "name": "query",
             "required": false,
             "description": "Case-insensitive part of the address."
           },
