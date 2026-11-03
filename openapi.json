@@ -6208,6 +6208,15 @@
             "maxLength": 512000,
             "description": "The whole email as HTML. Merge tags work as in a design; `{{unsubscribe_url}}` as a link's href places the unsubscribe link, which marketing sends otherwise get below the email, with the workspace postal address when the email does not show it."
           },
+          "context": {
+            "default": "transactional",
+            "description": "HTML only. `marketing`: the email as a marketing send has it, with the postal address and an unsubscribe link (`{{unsubscribe_url}}`; `#` in a test send) added below when the HTML does not show them. `transactional` (the default): nothing is added, as a transactional send adds nothing, and the HTML is as saving keeps it.",
+            "type": "string",
+            "enum": [
+              "marketing",
+              "transactional"
+            ]
+          },
           "plainTextOverride": {
             "description": "Plain text used instead of the version generated from the design or HTML.",
             "anyOf": [
@@ -6281,6 +6290,15 @@
               "pattern": "^[A-Za-z0-9_-]{1,64}$"
             },
             "additionalProperties": {}
+          },
+          "context": {
+            "default": "transactional",
+            "description": "HTML only. `marketing`: the email as a marketing send has it, with the postal address and an unsubscribe link (`{{unsubscribe_url}}`; `#` in a test send) added below when the HTML does not show them. `transactional` (the default): nothing is added, as a transactional send adds nothing, and the HTML is as saving keeps it.",
+            "type": "string",
+            "enum": [
+              "marketing",
+              "transactional"
+            ]
           }
         },
         "additionalProperties": false
@@ -6381,6 +6399,15 @@
             "type": "string",
             "maxLength": 512000,
             "description": "The whole email as HTML. Merge tags work as in a design; `{{unsubscribe_url}}` as a link's href places the unsubscribe link, which marketing sends otherwise get below the email, with the workspace postal address when the email does not show it."
+          },
+          "context": {
+            "default": "transactional",
+            "description": "HTML only. `marketing`: the email as a marketing send has it, with the postal address and an unsubscribe link (`{{unsubscribe_url}}`; `#` in a test send) added below when the HTML does not show them. `transactional` (the default): nothing is added, as a transactional send adds nothing, and the HTML is as saving keeps it.",
+            "type": "string",
+            "enum": [
+              "marketing",
+              "transactional"
+            ]
           },
           "plainTextOverride": {
             "description": "Plain text used instead of the version generated from the design or HTML.",
@@ -55528,7 +55555,7 @@
         "tags": [
           "templates"
         ],
-        "description": "Renders a block tree and theme sent in the request, or an email written as HTML (`\"kind\": \"html\"`), to the HTML and plain text a recipient would get, without saving anything: the builder or code editor preview, plain-text view and HTML export. HTML is returned as saving would keep it, with `HTML_REMOVED` listing what saving removes, `UNSUBSCRIBE_LINK_ADDED` when no link goes to `{{unsubscribe_url}}`, and `PLACEHOLDER_LINK` naming placeholder addresses (example.com and the like), which sending refuses as it does in a design. To render a saved template, use `POST /v1/templates/{id}/render`. Merge tags show their defaults, or pass `contact` to render them as that contact would see them (not from an embed session). `warnings` flags problems that do not stop rendering, such as an oversized message, or `POSTAL_ADDRESS_MISSING` while the workspace has no `postalAddress` for the footer.\n\nRequires API-key scope: `templates:read`.",
+        "description": "Renders a block tree and theme sent in the request, or an email written as HTML (`\"kind\": \"html\"`), to the HTML and plain text a recipient would get, without saving anything: the builder or code editor preview, plain-text view and HTML export. HTML is returned as saving would keep it, with `HTML_REMOVED` listing what saving removes, `UNSUBSCRIBE_LINK_ADDED` when no link goes to `{{unsubscribe_url}}`, `UNUSABLE_ADDRESS` naming empty, `#` or relative link and image addresses, and `PLACEHOLDER_LINK` naming placeholder addresses (example.com and the like), which sending refuses as it does in a design. With `\"context\": \"marketing\"` the HTML shows the postal address and unsubscribe link a marketing send adds when the email lacks them; `\"transactional\"`, the default, adds nothing and returns the HTML as saving keeps it. To render a saved template, use `POST /v1/templates/{id}/render`. Merge tags show their defaults, or pass `contact` to render them as that contact would see them (not from an embed session). `warnings` flags problems that do not stop rendering, such as an oversized message, or `POSTAL_ADDRESS_MISSING` while the workspace has no `postalAddress` for the footer.\n\nRequires API-key scope: `templates:read`.",
         "requestBody": {
           "required": true,
           "content": {
