@@ -1372,7 +1372,9 @@
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
-                      "email": "amaka@example.com"
+                      "email": "amaka@example.com",
+                      "firstName": "Amaka",
+                      "lastName": "Obi"
                     },
                     "recipientEmail": "amaka@example.com",
                     "simulated": false,
@@ -1518,7 +1520,9 @@
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
-                      "email": "amaka@example.com"
+                      "email": "amaka@example.com",
+                      "firstName": "Amaka",
+                      "lastName": "Obi"
                     },
                     "recipientEmail": "amaka@example.com",
                     "simulated": false,
@@ -1668,7 +1672,9 @@
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
-                      "email": "amaka@example.com"
+                      "email": "amaka@example.com",
+                      "firstName": "Amaka",
+                      "lastName": "Obi"
                     },
                     "recipientEmail": "amaka@example.com",
                     "simulated": false,
@@ -1810,7 +1816,9 @@
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
-                      "email": "amaka@example.com"
+                      "email": "amaka@example.com",
+                      "firstName": "Amaka",
+                      "lastName": "Obi"
                     },
                     "recipientEmail": "amaka@example.com",
                     "simulated": false,
@@ -1958,7 +1966,9 @@
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
-                      "email": "amaka@example.com"
+                      "email": "amaka@example.com",
+                      "firstName": "Amaka",
+                      "lastName": "Obi"
                     },
                     "recipientEmail": "amaka@example.com",
                     "simulated": false,
@@ -2100,7 +2110,9 @@
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
-                      "email": "amaka@example.com"
+                      "email": "amaka@example.com",
+                      "firstName": "Amaka",
+                      "lastName": "Obi"
                     },
                     "recipientEmail": "amaka@example.com",
                     "simulated": false,
@@ -2244,7 +2256,9 @@
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
-                      "email": "amaka@example.com"
+                      "email": "amaka@example.com",
+                      "firstName": "Amaka",
+                      "lastName": "Obi"
                     },
                     "recipientEmail": null,
                     "simulated": false,
@@ -2396,7 +2410,9 @@
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
-                      "email": "amaka@example.com"
+                      "email": "amaka@example.com",
+                      "firstName": "Amaka",
+                      "lastName": "Obi"
                     },
                     "recipientEmail": "amaka@example.com",
                     "simulated": false,
@@ -8402,51 +8418,47 @@
             "maxLength": 64
           },
           "page": {
-            "description": "Web: the page, without its query string or fragment.",
+            "description": "Web: the page, as Segment's analytics.js collects it: query strings kept, fragments removed. A longer value is cut, not refused: `url`, `search` and `referrer` at 8192 characters, `path` at 2048, `title` at 256.",
             "type": "object",
             "properties": {
               "url": {
-                "type": "string",
-                "maxLength": 2048
+                "description": "The canonical URL if the page has one, with the page's query string added unless it has its own; else the page's address.",
+                "type": "string"
               },
               "path": {
-                "type": "string",
-                "maxLength": 2048
+                "type": "string"
+              },
+              "search": {
+                "description": "The visited address's query string, `?plan=pro`; empty or absent when it has none.",
+                "type": "string"
               },
               "title": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "referrer": {
-                "type": "string",
-                "maxLength": 2048
+                "type": "string"
               }
             },
             "additionalProperties": false
           },
           "campaign": {
-            "description": "Web: the `utm_*` parameters of the page.",
+            "description": "Web: the `utm_*` parameters of the page, each cut to 256 characters.",
             "type": "object",
             "properties": {
               "source": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "medium": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "name": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "term": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "content": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               }
             },
             "additionalProperties": false
@@ -10291,7 +10303,7 @@
                           ]
                         },
                         "onFailureStep": {
-                          "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
+                          "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up or its marketing contacts are past the plan's limit (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
                           "type": "string",
                           "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
                           "examples": [
@@ -10830,7 +10842,7 @@
                           ]
                         },
                         "onFailureStep": {
-                          "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
+                          "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up or its marketing contacts are past the plan's limit (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
                           "type": "string",
                           "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
                           "examples": [
@@ -11936,7 +11948,7 @@
                           ]
                         },
                         "onFailureStep": {
-                          "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
+                          "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up or its marketing contacts are past the plan's limit (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
                           "type": "string",
                           "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
                           "examples": [
@@ -12475,7 +12487,7 @@
                           ]
                         },
                         "onFailureStep": {
-                          "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
+                          "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up or its marketing contacts are past the plan's limit (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
                           "type": "string",
                           "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
                           "examples": [
@@ -23750,51 +23762,47 @@
             "maxLength": 64
           },
           "page": {
-            "description": "Web: the page, without its query string or fragment.",
+            "description": "Web: the page, as Segment's analytics.js collects it: query strings kept, fragments removed. A longer value is cut, not refused: `url`, `search` and `referrer` at 8192 characters, `path` at 2048, `title` at 256.",
             "type": "object",
             "properties": {
               "url": {
-                "type": "string",
-                "maxLength": 2048
+                "description": "The canonical URL if the page has one, with the page's query string added unless it has its own; else the page's address.",
+                "type": "string"
               },
               "path": {
-                "type": "string",
-                "maxLength": 2048
+                "type": "string"
+              },
+              "search": {
+                "description": "The visited address's query string, `?plan=pro`; empty or absent when it has none.",
+                "type": "string"
               },
               "title": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "referrer": {
-                "type": "string",
-                "maxLength": 2048
+                "type": "string"
               }
             },
             "additionalProperties": false
           },
           "campaign": {
-            "description": "Web: the `utm_*` parameters of the page.",
+            "description": "Web: the `utm_*` parameters of the page, each cut to 256 characters.",
             "type": "object",
             "properties": {
               "source": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "medium": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "name": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "term": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               },
               "content": {
-                "type": "string",
-                "maxLength": 256
+                "type": "string"
               }
             },
             "additionalProperties": false
@@ -26107,7 +26115,7 @@
                 ]
               },
               "onFailureStep": {
-                "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
+                "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up or its marketing contacts are past the plan's limit (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
                 "type": "string",
                 "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
                 "examples": [
@@ -26646,7 +26654,7 @@
                 ]
               },
               "onFailureStep": {
-                "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
+                "description": "The id of the step to go to when the message cannot be queued because the plan's sending allowance is used up or its marketing contacts are past the plan's limit (recorded `skipped`, reason `plan_limit_reached`); later delivery failures do not branch. Unset continues to `nextStep`.",
                 "type": "string",
                 "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
                 "examples": [
@@ -28563,11 +28571,19 @@
                     "holdout",
                     "would_exit"
                   ],
-                  "description": "What the step would do: a send step `would_send`, `would_skip`, `unreachable` (takes its fallback) or `failed` (the email allowance is used up and it has `onFailureStep`); a wait `would_wait`, a wait-until `would_wait_for_event`; an action `would_act`; a branch, filter or split `matched`, `not_matched` or `otherwise`; a random split `random_path` or `holdout`; and `would_exit` where a continuous filter no longer matches."
+                  "description": "What the step would do: a send step `would_send`, `would_skip`, `unreachable` (takes its fallback) or `failed` (a plan limit refuses it and it has `onFailureStep`); a wait `would_wait`, a wait-until `would_wait_for_event`; an action `would_act`; a branch, filter or split `matched`, `not_matched` or `otherwise`; a random split `random_path` or `holdout`; and `would_exit` where a continuous filter no longer matches."
                 },
                 "reason": {
-                  "description": "Why a send step would not send: the send guard's error code, or `PLAN_LIMIT_REACHED`.",
+                  "description": "Why a send step would not send: the send guard's error code, or `PLAN_LIMIT_REACHED` with `planLimit` saying which.",
                   "type": "string"
+                },
+                "planLimit": {
+                  "description": "With `reason` `PLAN_LIMIT_REACHED`: `marketing_contacts` when the workspace's marketing contacts are past the plan's limit and its tolerance (stops every channel), `emails` when the email allowance is used up.",
+                  "type": "string",
+                  "enum": [
+                    "marketing_contacts",
+                    "emails"
+                  ]
                 },
                 "issues": {
                   "description": "With `reason` `DRAFT_INCOMPLETE`: what the step still needs, as activation would list it.",
@@ -29078,12 +29094,28 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "firstName": {
+                    "description": "The contact's first name now.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "lastName": {
+                    "description": "The contact's last name now.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
                   "id",
                   "externalId",
-                  "email"
+                  "email",
+                  "firstName",
+                  "lastName"
                 ],
                 "additionalProperties": false
               },
@@ -33312,7 +33344,8 @@
               "campaign_not_draft",
               "unsupported_channels",
               "draft_incomplete",
-              "empty_audience"
+              "empty_audience",
+              "marketing_contacts_limit_reached"
             ],
             "description": "What blocks it, for code to branch on."
           },
@@ -39394,7 +39427,9 @@
                           "contact": {
                             "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                             "externalId": "customer-4821",
-                            "email": "amaka@example.com"
+                            "email": "amaka@example.com",
+                            "firstName": "Amaka",
+                            "lastName": "Obi"
                           },
                           "recipientEmail": "amaka@example.com",
                           "simulated": false,
@@ -46786,7 +46821,9 @@
                         "contact": {
                           "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                           "externalId": "customer-4821",
-                          "email": "amaka@example.com"
+                          "email": "amaka@example.com",
+                          "firstName": "Amaka",
+                          "lastName": "Obi"
                         },
                         "recipientEmail": null,
                         "simulated": false,
@@ -51068,7 +51105,7 @@
         "tags": [
           "journeys"
         ],
-        "description": "Creates a multi-step automation in a draft state. A draft saves unfinished: it needs a name and a trigger, but may have no steps yet and send steps without their content; what is given is checked. Each step has an `id` you choose, unique within the journey, and transitions (`nextStep`, `onMatchStep`, `otherwiseStep`, split paths) name those ids: a step whose `nextStep` is omitted goes on to the next step in `steps`, `null` ends the journey there, and a branch's last step should set `null`. A transition to a step that does not exist, or one that leads back to a step already passed (a loop), is a 400 at that field. A journey does not run until it is activated, which needs it whole (409 `DRAFT_INCOMPLETE` lists each missing field in `errors`); edit it with `PATCH /v1/journeys/{id}`. An email step is built from its design (`templateSnapshot`): any `html` or `text` sent beside it is replaced by the design's rendering. A send step may set `onUnreachableStep` (the contact cannot receive the channel) and `onFailureStep`: taken when the message cannot be queued because the plan's sending allowance is used up (it is recorded `skipped`, reason `plan_limit_reached`). Delivery happens after the enrollment has moved on, so a later bounce or provider error does not branch. A contact enters one repeatable journey at most 10 times an hour, whatever its `waitAfterEntry`; past that, entries are skipped and the workspace admins are notified (`journey_loop_detected`).\n\nRequires API-key scope: `journeys:write`.",
+        "description": "Creates a multi-step automation in a draft state. A draft saves unfinished: it needs a name and a trigger, but may have no steps yet and send steps without their content; what is given is checked. Each step has an `id` you choose, unique within the journey, and transitions (`nextStep`, `onMatchStep`, `otherwiseStep`, split paths) name those ids: a step whose `nextStep` is omitted goes on to the next step in `steps`, `null` ends the journey there, and a branch's last step should set `null`. A transition to a step that does not exist, or one that leads back to a step already passed (a loop), is a 400 at that field. A journey does not run until it is activated, which needs it whole (409 `DRAFT_INCOMPLETE` lists each missing field in `errors`); edit it with `PATCH /v1/journeys/{id}`. An email step is built from its design (`templateSnapshot`): any `html` or `text` sent beside it is replaced by the design's rendering. A send step may set `onUnreachableStep` (the contact cannot receive the channel) and `onFailureStep`: taken when the message cannot be queued because the plan's sending allowance is used up or its marketing contacts are past the plan's limit (it is recorded `skipped`, reason `plan_limit_reached`). Delivery happens after the enrollment has moved on, so a later bounce or provider error does not branch. A contact enters one repeatable journey at most 10 times an hour, whatever its `waitAfterEntry`; past that, entries are skipped and the workspace admins are notified (`journey_loop_detected`).\n\nRequires API-key scope: `journeys:write`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -51795,7 +51832,7 @@
         "tags": [
           "journeys"
         ],
-        "description": "Previews an enrollment without sending. `entry` says whether the contact would enter now: a date journey needs a valid date in its field; an event journey checks the supplied eventProperties against the trigger's conditions, then re-entry. The path follows branches on eventProperties and filters and splits on the contact as they are now; a wait-until step takes its match path. Each send step is checked against suppression, consent, topics and devices: `would_send`, `unreachable` (takes the fallback path), `failed` (the email allowance is used up and the step has `onFailureStep`) or `would_skip`, with the refusal code in `reason` (`DRAFT_INCOMPLETE` for a send step not yet finished: a draft simulates too; `PLAN_LIMIT_REACHED` when the email allowance is used up). An ended journey returns `journey_ended`; a draft or paused one is previewed as if live. A date journey enters only when its date is due now in the contact's timezone (`date_not_due` otherwise), once per occurrence; when due, its branches read the date occurrence instead of `eventProperties`. `maxEntries` and the hourly re-entry cap apply as they do live. Message limits, the push allowance and send-time scheduling are not previewed.\n\nRequires API-key scope: `journeys:read`.",
+        "description": "Previews an enrollment without sending. `entry` says whether the contact would enter now: a date journey needs a valid date in its field; an event journey checks the supplied eventProperties against the trigger's conditions, then re-entry. The path follows branches on eventProperties and filters and splits on the contact as they are now; a wait-until step takes its match path. Each send step is checked against suppression, consent, topics and devices: `would_send`, `unreachable` (takes the fallback path), `failed` (a plan limit refuses it and the step has `onFailureStep`) or `would_skip`, with the refusal code in `reason` (`DRAFT_INCOMPLETE` for a send step not yet finished: a draft simulates too; `PLAN_LIMIT_REACHED` with `planLimit`: `emails` when the email allowance is used up, `marketing_contacts`, on any channel, when the workspace's marketing contacts are past the plan's limit and its tolerance). An ended journey returns `journey_ended`; a draft or paused one is previewed as if live. A date journey enters only when its date is due now in the contact's timezone (`date_not_due` otherwise), once per occurrence; when due, its branches read the date occurrence instead of `eventProperties`. `maxEntries` and the hourly re-entry cap apply as they do live. Message limits, the push allowance and send-time scheduling are not previewed.\n\nRequires API-key scope: `journeys:read`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -60667,6 +60704,32 @@
               ]
             },
             "in": "query",
+            "name": "sent",
+            "required": false,
+            "description": "`true`: handed to the provider, whatever happened after; `false`: never sent (queued, failed before sending or skipped)."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "in": "query",
+            "name": "delivered",
+            "required": false,
+            "description": "`true`: delivery was confirmed, even if a complaint or bounce came later; `false`: never confirmed."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "in": "query",
             "name": "opened",
             "required": false,
             "description": "`true`: opened (or clicked) at least once; `false`: never."
@@ -60764,7 +60827,9 @@
                           "contact": {
                             "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                             "externalId": "customer-4821",
-                            "email": "amaka@example.com"
+                            "email": "amaka@example.com",
+                            "firstName": "Amaka",
+                            "lastName": "Obi"
                           },
                           "recipientEmail": "amaka@example.com",
                           "simulated": false,
@@ -60796,7 +60861,9 @@
                           "contact": {
                             "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                             "externalId": "customer-4821",
-                            "email": "amaka@example.com"
+                            "email": "amaka@example.com",
+                            "firstName": "Amaka",
+                            "lastName": "Obi"
                           },
                           "recipientEmail": "amaka@example.com",
                           "simulated": false,
@@ -60940,7 +61007,9 @@
                         "contact": {
                           "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                           "externalId": "customer-4821",
-                          "email": "amaka@example.com"
+                          "email": "amaka@example.com",
+                          "firstName": "Amaka",
+                          "lastName": "Obi"
                         },
                         "recipientEmail": "amaka@example.com",
                         "simulated": false,
