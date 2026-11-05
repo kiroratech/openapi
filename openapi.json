@@ -8418,7 +8418,7 @@
             "maxLength": 64
           },
           "page": {
-            "description": "Web: the page, as Segment's analytics.js collects it: query strings kept, fragments removed. A longer value is cut, not refused: `url`, `search` and `referrer` at 8192 characters, `path` at 2048, `title` at 256.",
+            "description": "Web: the page as visited: query strings kept, fragments removed. A longer value is cut, not refused: `url`, `search` and `referrer` at 8192 characters, `path` at 2048, `title` at 256.",
             "type": "object",
             "properties": {
               "url": {
@@ -23762,7 +23762,7 @@
             "maxLength": 64
           },
           "page": {
-            "description": "Web: the page, as Segment's analytics.js collects it: query strings kept, fragments removed. A longer value is cut, not refused: `url`, `search` and `referrer` at 8192 characters, `path` at 2048, `title` at 256.",
+            "description": "Web: the page as visited: query strings kept, fragments removed. A longer value is cut, not refused: `url`, `search` and `referrer` at 8192 characters, `path` at 2048, `title` at 256.",
             "type": "object",
             "properties": {
               "url": {
