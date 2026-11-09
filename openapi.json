@@ -1369,6 +1369,7 @@
                     },
                     "journey": null,
                     "template": null,
+                    "copy": null,
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
@@ -1517,6 +1518,7 @@
                     },
                     "journey": null,
                     "template": null,
+                    "copy": null,
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
@@ -1669,6 +1671,7 @@
                     },
                     "journey": null,
                     "template": null,
+                    "copy": null,
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
@@ -1813,6 +1816,7 @@
                     },
                     "journey": null,
                     "template": null,
+                    "copy": null,
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
@@ -1963,6 +1967,7 @@
                     },
                     "journey": null,
                     "template": null,
+                    "copy": null,
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
@@ -2107,6 +2112,7 @@
                     },
                     "journey": null,
                     "template": null,
+                    "copy": null,
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
@@ -2253,6 +2259,7 @@
                     },
                     "journey": null,
                     "template": null,
+                    "copy": null,
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
@@ -2407,6 +2414,7 @@
                     },
                     "journey": null,
                     "template": null,
+                    "copy": null,
                     "contact": {
                       "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                       "externalId": "customer-4821",
@@ -3999,7 +4007,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           }
         },
         "required": [
@@ -4201,7 +4210,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           }
         },
         "required": [
@@ -4250,7 +4260,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           },
           "align": {
             "type": "string",
@@ -4929,7 +4940,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           },
           "src": {
             "type": "string",
@@ -4994,7 +5006,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           }
         },
         "required": [
@@ -13780,7 +13793,7 @@
             "maxLength": 255
           },
           "email": {
-            "description": "Inline (`subject`, `from`, `html`), or a stored template by `template`; either may carry `attachments`, `threading` and `tracking`.",
+            "description": "Inline (`subject`, `from`, `html`), or a stored template by `template`; either may carry `attachments`, `threading`, `tracking`, `cc` and `bcc`.",
             "anyOf": [
               {
                 "type": "object",
@@ -13838,6 +13851,28 @@
                   "tracking": {
                     "description": "Open and click tracking; off unless asked for. Contacts whose `country` is in the EEA or the UK are never tracked.",
                     "$ref": "#/components/schemas/TransactionalEmailTrackingInput"
+                  },
+                  "cc": {
+                    "description": "Addresses that get a copy and are shown in its `Cc` line. Each goes as its own message, with its own bounces and complaints, and counts as one email. Up to 14 across `cc` and `bcc`.",
+                    "minItems": 1,
+                    "maxItems": 14,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 320,
+                      "format": "email"
+                    }
+                  },
+                  "bcc": {
+                    "description": "Addresses that get a copy without being shown to anyone. Sent and counted as `cc` is.",
+                    "minItems": 1,
+                    "maxItems": 14,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 320,
+                      "format": "email"
+                    }
                   }
                 },
                 "required": [
@@ -13900,6 +13935,32 @@
                   "tracking": {
                     "description": "Open and click tracking; off unless asked for. Contacts whose `country` is in the EEA or the UK are never tracked.",
                     "$ref": "#/components/schemas/TransactionalEmailTrackingInput"
+                  },
+                  "cc": {
+                    "description": "Addresses that get a copy and are shown in its `Cc` line. Each goes as its own message, with its own bounces and complaints, and counts as one email. Up to 14 across `cc` and `bcc`.",
+                    "minItems": 1,
+                    "maxItems": 14,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 320,
+                      "format": "email"
+                    }
+                  },
+                  "bcc": {
+                    "description": "Addresses that get a copy without being shown to anyone. Sent and counted as `cc` is.",
+                    "minItems": 1,
+                    "maxItems": 14,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 320,
+                      "format": "email"
+                    }
+                  },
+                  "mergeTags": {
+                    "description": "Set to `false` for HTML that is already finished: `{{` then goes out exactly as written, and nothing is checked or filled in. `{{unsubscribe_url}}` and `{{web_version_url}}` still work. Defaults to `true`.",
+                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -15792,6 +15853,48 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 64
+          },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The business's website."
+          },
+          "mailKind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "marketing",
+                  "transactional",
+                  "both"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What the workspace sends."
+          },
+          "contactOptIn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "How its contacts agreed to hear from it: a signup form, checkout, an app."
           }
         },
         "required": [
@@ -15818,6 +15921,48 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 64
+          },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The business's website."
+          },
+          "mailKind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "marketing",
+                  "transactional",
+                  "both"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What the workspace sends."
+          },
+          "contactOptIn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "How its contacts agreed to hear from it: a signup form, checkout, an app."
           }
         },
         "additionalProperties": false
@@ -16711,12 +16856,13 @@
             "type": "string",
             "enum": [
               "pending",
+              "awaiting_review",
               "verified",
               "verification_lost",
               "failed",
               "quarantined"
             ],
-            "description": "Whether the domain can send: `pending` until its DNS records are all found; `verified`, it can send; `verification_lost`, it was verified but a record has since gone missing, and nothing sends from it until the record is back; `failed`, see `failureReason`; `quarantined`, the domain is already set up by another account, so nothing sends from it until Kirora support reviews it."
+            "description": "Whether the domain can send: `pending` until its DNS records are all found; `awaiting_review`, you own it but a person at Kirora has not cleared it to send yet, and it is set up the moment they do (`review` says more); `verified`, it can send; `verification_lost`, it was verified but a record has since gone missing, and nothing sends from it until the record is back; `failed`, see `failureReason`; `quarantined`, the domain is already set up by another account, so nothing sends from it until Kirora support reviews it."
           },
           "failureReason": {
             "description": "Why verification failed, when it has.",
@@ -16883,6 +17029,34 @@
             "additionalProperties": false,
             "description": "Each check's state, for showing progress; `status` is what decides."
           },
+          "review": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "not_requested",
+                  "in_review",
+                  "approved",
+                  "declined"
+                ],
+                "description": "Whether a person at Kirora has cleared the domain to send; until then it has no provider identity (`status` is `awaiting_review` once you own it), and nothing sends from it, not even a test. `not_requested`: proven yours, waiting for the workspace's sending profile (website, what it sends, how contacts agreed), which asks for review once filled in. `in_review`: waiting for a person, usually within a day. A subdomain of an approved domain is approved when proven."
+              },
+              "declineReason": {
+                "description": "Why it was declined; null unless `declined`.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "status",
+              "declineReason"
+            ],
+            "additionalProperties": false,
+            "description": "Its sending review (`SENDING_REVIEW_REQUIRED`)."
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -16900,6 +17074,7 @@
           "lastCheckedAt",
           "dnsRecords",
           "checks",
+          "review",
           "createdAt",
           "updatedAt"
         ],
@@ -17068,6 +17243,7 @@
           "NOTHING_TO_EXPORT",
           "EVENT_NAME_LIMIT_REACHED",
           "PLAN_LIMIT_REACHED",
+          "SENDING_REVIEW_REQUIRED",
           "PLAN_FEATURE_UNAVAILABLE",
           "CAMPAIGN_AUDIENCE_CONFLICT",
           "EMPTY_AUDIENCE",
@@ -17268,6 +17444,12 @@
               403
             ],
             "description": "A limit of the workspace owner's plan stops this: emails this month or today, contacts, image storage, workspaces, members, sending domains, active journeys or the Kiro allowance. `details.entitlement` names the limit, `details.limit` and `details.used` say how far it goes, and `details.upgradeTo` names the plan that lifts it. A new account's daily email ramp returns the same way with `upgradeTo` null and `details.increasesAt`, when the ramp next raises the limit: no plan lifts it sooner."
+          },
+          "SENDING_REVIEW_REQUIRED": {
+            "statuses": [
+              403
+            ],
+            "description": "The sender's domain is waiting for a person at Kirora, who reviews each new sending domain before it can send, against the workspace's sending profile. Until approved it has no provider identity, so nothing sends from it, not even a test. `details.domain` names it and `details.status` says where its review stands: `not_requested` (the workspace's sending profile is not filled in yet), `in_review` (usually answered within a day) or `declined` (the domain's `review.declineReason` says why). A subdomain of an approved domain needs no review."
           },
           "PLAN_FEATURE_UNAVAILABLE": {
             "statuses": [
@@ -18103,7 +18285,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           }
         },
         "required": [
@@ -18305,7 +18488,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           }
         },
         "required": [
@@ -18354,7 +18538,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           },
           "align": {
             "type": "string",
@@ -19033,7 +19218,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           },
           "src": {
             "type": "string",
@@ -19098,7 +19284,8 @@
           },
           "href": {
             "type": "string",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Where it links: an `https:`, `http:`, `mailto:` or `tel:` address, or a merge tag. `https://` is added to a bare address such as `acme.com/setup`. A draft may hold anything; a button or video whose link is none of these cannot be published or sent."
           }
         },
         "required": [
@@ -28716,6 +28903,28 @@
         ],
         "additionalProperties": false
       },
+      "MessageCopy": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "cc",
+              "bcc"
+            ]
+          },
+          "of": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The message it is a copy of."
+          }
+        },
+        "required": [
+          "kind",
+          "of"
+        ],
+        "additionalProperties": false
+      },
       "TransactionalMessage": {
         "type": "object",
         "properties": {
@@ -28777,6 +28986,17 @@
               }
             ],
             "description": "With `fallbackOrder`: the message this one stands in for. It waits as `queued` until that one ends: sent when it failed, was skipped or bounced, else skipped with reason `fallback_not_needed`. Null otherwise."
+          },
+          "copy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MessageCopy"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Set on a `cc` or `bcc` copy; null on the message itself."
           }
         },
         "required": [
@@ -28786,7 +29006,8 @@
           "correlationId",
           "createdAt",
           "sendAt",
-          "fallbackFor"
+          "fallbackFor",
+          "copy"
         ],
         "additionalProperties": false
       },
@@ -28815,6 +29036,35 @@
         ],
         "additionalProperties": false
       },
+      "TransactionalSkippedCopy": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "cc",
+              "bcc"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "description": "Its error code, such as `SUPPRESSED`."
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "kind",
+          "code",
+          "message"
+        ],
+        "additionalProperties": false
+      },
       "TransactionalSendResult": {
         "type": "object",
         "properties": {
@@ -28830,11 +29080,19 @@
               "$ref": "#/components/schemas/TransactionalSkippedChannel"
             },
             "description": "Channels given that were not sent, each with the reason: the contact cannot receive it, or the plan has no room for it."
+          },
+          "skippedCopies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionalSkippedCopy"
+            },
+            "description": "`cc` or `bcc` addresses that got no copy, each with the reason."
           }
         },
         "required": [
           "messages",
-          "skippedChannels"
+          "skippedChannels",
+          "skippedCopies"
         ],
         "additionalProperties": false
       },
@@ -28871,13 +29129,21 @@
                         "$ref": "#/components/schemas/TransactionalSkippedChannel"
                       },
                       "description": "Channels given that were not sent, each with the reason: the contact cannot receive it, or the plan has no room for it."
+                    },
+                    "skippedCopies": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TransactionalSkippedCopy"
+                      },
+                      "description": "`cc` or `bcc` addresses that got no copy, each with the reason."
                     }
                   },
                   "required": [
                     "idempotencyKey",
                     "replayed",
                     "messages",
-                    "skippedChannels"
+                    "skippedChannels",
+                    "skippedCopies"
                   ],
                   "additionalProperties": false,
                   "title": "Accepted"
@@ -29072,6 +29338,17 @@
               }
             ],
             "description": "The stored template and published version it was sent from; null for inline content."
+          },
+          "copy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MessageCopy"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Set on a `cc` or `bcc` copy; null on the message itself."
           },
           "contact": {
             "anyOf": [
@@ -29303,7 +29580,7 @@
                   },
                   "reason": {
                     "type": "string",
-                    "description": "Which guard stopped it before sending, such as `suppressed`, `consent_missing` or `cancelled`; `fallback_not_needed`: a transactional `fallbackOrder` fallback whose first channel arrived; `plan_limit_reached`: a fallback the plan had no room for when it was due."
+                    "description": "Which guard stopped it before sending, such as `suppressed`, `consent_missing` or `cancelled`; `fallback_not_needed`: a transactional `fallbackOrder` fallback whose first channel arrived; `plan_limit_reached`: a fallback the plan had no room for when it was due; `sending_review_required`: email from a sending domain Kirora has not approved yet."
                   },
                   "suppressionReason": {
                     "anyOf": [
@@ -29351,6 +29628,7 @@
           "campaign",
           "journey",
           "template",
+          "copy",
           "contact",
           "recipientEmail",
           "simulated",
@@ -33121,7 +33399,9 @@
               "dmarc_missing",
               "postal_address_missing",
               "no_eligible_recipients",
-              "plan_limit_reached"
+              "plan_limit_reached",
+              "new_account_daily_limit",
+              "sending_review_required"
             ],
             "description": "What blocks it, for code to branch on."
           },
@@ -35786,6 +36066,48 @@
             ],
             "description": "When the workspace and everything in it is deleted for good, unless the deletion is cancelled before; null if no deletion is pending."
           },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The business's website."
+          },
+          "mailKind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "marketing",
+                  "transactional",
+                  "both"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What the workspace sends."
+          },
+          "contactOptIn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "How its contacts agreed to hear from it: a signup form, checkout, an app."
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -35801,6 +36123,9 @@
           "suspendedAt",
           "deletionRequestedAt",
           "deletesAt",
+          "website",
+          "mailKind",
+          "contactOptIn",
           "createdAt"
         ],
         "additionalProperties": false
@@ -39424,6 +39749,7 @@
                           },
                           "journey": null,
                           "template": null,
+                          "copy": null,
                           "contact": {
                             "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                             "externalId": "customer-4821",
@@ -46145,7 +46471,7 @@
         "tags": [
           "transactional"
         ],
-        "description": "Sends a one-off message to one recipient — a receipt, a password reset, a confirmation — bypassing campaigns. It ignores marketing preferences (it is the critical tier) but respects suppression. Agent keys are refused with 403.\n\n**Channels.** Give `email`, `push`, or both. With both, each one the contact can receive is sent. `fallbackOrder: [\"email\", \"push\"]` tries them in that order instead: the first the contact can receive goes, and each later one waits as a fallback (`fallbackFor`), sent only when the one before it fails, is skipped or bounces (an email gets 15 minutes to bounce), else skipped with reason `fallback_not_needed`. A fallback is charged only when it goes; with no room left in the plan by then it is skipped with reason `plan_limit_reached`. A channel the contact cannot receive, or the plan has no room for, is passed over and listed in `skippedChannels` with its error code; only when none is left does the send fail, with that channel's error. So without `fallbackOrder` too, a 202 can leave a channel unsent: check `skippedChannels`. The response lists one message per channel stored.\n\n**Data.** `data` holds the values the content reads as `{{ data.<key> }}`, once for every channel: a stored template, inline email, and the push `title` and `body`. Inline content (email or push) whose `{{ data.<key> }}` tag has no value in `data`, and no default, is refused with 400 rather than sent blank.\n\n**Email.** Inline (`subject`, `from`, `html`, optional `text`, `previewText`, `replyTo`), or a stored template named by `template` (its alias, such as `password-reset`, or its id). The template's published version is rendered when the request is accepted and supplies the envelope; each envelope field given overrides it. The result needs a `subject` and a `from` (409 `TEMPLATE_ENVELOPE_INCOMPLETE`), and the `from` domain must be verified. A template never published is 409 `TEMPLATE_NOT_PUBLISHED`. Email is tracked only when `tracking` asks, and never for a contact in the EEA or the UK; `threading` continues a conversation. `attachments`, `threading` and `tracking` sit inside `email`.\n\n**Push.** `push` takes the notification fields (`title`, `body`, `actionUrl`, …) beside `pushProjectId`, which is needed only when the workspace has several push projects. Unlike email, push needs the contact's push consent (`consent.push`) besides a device that allows notifications.\n\n**Recipient.** `to` names one `contactId`, `externalId` or `email`, and nothing else: set a contact's name or attributes with `POST /v1/contacts/identify` first. An `email` that matches no contact creates one for transactional mail only.\n\n**Retries.** Send an `Idempotency-Key` header to make a retry safe. A retry with the same key and request returns the first result, with `Idempotency-Replay: true`, and sends nothing again; the same key with a different request is 409 `IDEMPOTENCY_KEY_REUSED`. Without a key, every request sends: a retry after a timeout can send the message twice. A replay answers from the messages as they are now, so its `status` can differ from the first answer, and an `externalId` or `email` recipient the first request created or updated stays so even when the send itself was refused. Set `correlationId` to your own reference: it is echoed on each message's webhooks and its read, and `GET /v1/messages?correlationId=` finds them. `sendAt` times the send, email and push alike.\n\nRequires API-key scope: `transactional:send`.",
+        "description": "Sends a one-off message to one recipient — a receipt, a password reset, a confirmation — bypassing campaigns. It ignores marketing preferences (it is the critical tier) but respects suppression. Agent keys are refused with 403.\n\n**Channels.** Give `email`, `push`, or both. With both, each one the contact can receive is sent. `fallbackOrder: [\"email\", \"push\"]` tries them in that order instead: the first the contact can receive goes, and each later one waits as a fallback (`fallbackFor`), sent only when the one before it fails, is skipped or bounces (an email gets 15 minutes to bounce), else skipped with reason `fallback_not_needed`. A fallback is charged only when it goes; with no room left in the plan by then it is skipped with reason `plan_limit_reached`. A channel the contact cannot receive, or the plan has no room for, is passed over and listed in `skippedChannels` with its error code; only when none is left does the send fail, with that channel's error. So without `fallbackOrder` too, a 202 can leave a channel unsent: check `skippedChannels`. The response lists one message per channel stored, and one per `cc` or `bcc` copy. Each copy is its own message with its own bounces, and an address that cannot take one is listed in `skippedCopies` while the send goes on.\n\n**Data.** `data` holds the values the content reads as `{{ data.<key> }}`, once for every channel: a stored template, inline email, and the push `title` and `body`. Inline content (email or push) whose `{{ data.<key> }}` tag has no value in `data`, and no default, is refused with 400 rather than sent blank.\n\n**Email.** Inline (`subject`, `from`, `html`, optional `text`, `previewText`, `replyTo`), or a stored template named by `template` (its alias, such as `password-reset`, or its id). The template's published version is rendered when the request is accepted and supplies the envelope; each envelope field given overrides it. The result needs a `subject` and a `from` (409 `TEMPLATE_ENVELOPE_INCOMPLETE`), and the `from` domain must be verified. A template never published is 409 `TEMPLATE_NOT_PUBLISHED`. Email is tracked only when `tracking` asks, and never for a contact in the EEA or the UK; `threading` continues a conversation. `attachments`, `threading` and `tracking` sit inside `email`.\n\n**Push.** `push` takes the notification fields (`title`, `body`, `actionUrl`, …) beside `pushProjectId`, which is needed only when the workspace has several push projects. Unlike email, push needs the contact's push consent (`consent.push`) besides a device that allows notifications.\n\n**Recipient.** `to` names one `contactId`, `externalId` or `email`, and nothing else: set a contact's name or attributes with `POST /v1/contacts/identify` first. An `email` that matches no contact creates one for transactional mail only.\n\n**Retries.** Send an `Idempotency-Key` header to make a retry safe. A retry with the same key and request returns the first result, with `Idempotency-Replay: true`, and sends nothing again; the same key with a different request is 409 `IDEMPOTENCY_KEY_REUSED`. Without a key, every request sends: a retry after a timeout can send the message twice. A replay answers from the messages as they are now, so its `status` can differ from the first answer, and an `externalId` or `email` recipient the first request created or updated stays so even when the send itself was refused. Set `correlationId` to your own reference: it is echoed on each message's webhooks and its read, and `GET /v1/messages?correlationId=` finds them. `sendAt` times the send, email and push alike.\n\nRequires API-key scope: `transactional:send`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -46330,10 +46656,12 @@
                             "correlationId": "order-1001",
                             "createdAt": "2026-11-17T08:30:00.000Z",
                             "sendAt": null,
-                            "fallbackFor": null
+                            "fallbackFor": null,
+                            "copy": null
                           }
                         ],
-                        "skippedChannels": []
+                        "skippedChannels": [],
+                        "skippedCopies": []
                       }
                     }
                   },
@@ -46349,10 +46677,12 @@
                             "correlationId": null,
                             "createdAt": "2026-11-17T08:30:00.000Z",
                             "sendAt": null,
-                            "fallbackFor": null
+                            "fallbackFor": null,
+                            "copy": null
                           }
                         ],
-                        "skippedChannels": []
+                        "skippedChannels": [],
+                        "skippedCopies": []
                       }
                     }
                   },
@@ -46368,7 +46698,8 @@
                             "correlationId": "delivery-7731",
                             "createdAt": "2026-11-17T08:30:00.000Z",
                             "sendAt": null,
-                            "fallbackFor": null
+                            "fallbackFor": null,
+                            "copy": null
                           },
                           {
                             "id": "0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f",
@@ -46377,10 +46708,12 @@
                             "correlationId": "delivery-7731",
                             "createdAt": "2026-11-17T08:30:00.000Z",
                             "sendAt": null,
-                            "fallbackFor": null
+                            "fallbackFor": null,
+                            "copy": null
                           }
                         ],
-                        "skippedChannels": []
+                        "skippedChannels": [],
+                        "skippedCopies": []
                       }
                     }
                   },
@@ -46396,7 +46729,8 @@
                             "correlationId": null,
                             "createdAt": "2026-11-17T08:30:00.000Z",
                             "sendAt": null,
-                            "fallbackFor": null
+                            "fallbackFor": null,
+                            "copy": null
                           },
                           {
                             "id": "0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f",
@@ -46405,10 +46739,12 @@
                             "correlationId": null,
                             "createdAt": "2026-11-17T08:30:00.000Z",
                             "sendAt": null,
-                            "fallbackFor": "0192f3b0-2b3c-7d4e-9f50-6b7c8d9e0f1a"
+                            "fallbackFor": "0192f3b0-2b3c-7d4e-9f50-6b7c8d9e0f1a",
+                            "copy": null
                           }
                         ],
-                        "skippedChannels": []
+                        "skippedChannels": [],
+                        "skippedCopies": []
                       }
                     }
                   },
@@ -46424,10 +46760,12 @@
                             "correlationId": null,
                             "createdAt": "2026-11-17T08:30:00.000Z",
                             "sendAt": "2026-11-17T09:00:00.000Z",
-                            "fallbackFor": null
+                            "fallbackFor": null,
+                            "copy": null
                           }
                         ],
-                        "skippedChannels": []
+                        "skippedChannels": [],
+                        "skippedCopies": []
                       }
                     }
                   }
@@ -46634,10 +46972,12 @@
                                 "correlationId": "order-1001",
                                 "createdAt": "2026-11-17T08:30:00.000Z",
                                 "sendAt": null,
-                                "fallbackFor": null
+                                "fallbackFor": null,
+                                "copy": null
                               }
                             ],
-                            "skippedChannels": []
+                            "skippedChannels": [],
+                            "skippedCopies": []
                           },
                           {
                             "idempotencyKey": "order-1002-receipt",
@@ -46650,10 +46990,12 @@
                                 "correlationId": "order-1002",
                                 "createdAt": "2026-11-17T08:30:00.000Z",
                                 "sendAt": null,
-                                "fallbackFor": null
+                                "fallbackFor": null,
+                                "copy": null
                               }
                             ],
-                            "skippedChannels": []
+                            "skippedChannels": [],
+                            "skippedCopies": []
                           }
                         ]
                       }
@@ -46675,10 +47017,12 @@
                                 "correlationId": "order-1003",
                                 "createdAt": "2026-11-17T08:30:00.000Z",
                                 "sendAt": null,
-                                "fallbackFor": null
+                                "fallbackFor": null,
+                                "copy": null
                               }
                             ],
-                            "skippedChannels": []
+                            "skippedChannels": [],
+                            "skippedCopies": []
                           },
                           {
                             "idempotencyKey": "order-1004-receipt",
@@ -46757,7 +47101,7 @@
         "tags": [
           "transactional"
         ],
-        "description": "Stops a message sent with `sendAt` before it goes: it becomes `skipped` with `skip.reason` `cancelled`, its email or push goes back to the plan allowance, and `message.skipped` is published. Cancelling it again answers 200 with the message as it is. Once a worker has started sending it, or it went at once, the response is 409 `CONFLICT`. Agent keys are refused with 403.\n\nRequires API-key scope: `transactional:send`.",
+        "description": "Stops a message sent with `sendAt` before it goes: it becomes `skipped` with `skip.reason` `cancelled`, its email or push goes back to the plan allowance, and `message.skipped` is published. Cancelling an email also cancels its `cc` and `bcc` copies. Cancelling it again answers 200 with the message as it is. Once a worker has started sending it, or it went at once, the response is 409 `CONFLICT`. Agent keys are refused with 403.\n\nRequires API-key scope: `transactional:send`.",
         "parameters": [
           {
             "schema": {
@@ -46811,6 +47155,7 @@
                     "summary": "A timed message stopped before it started sending",
                     "value": {
                       "data": {
+                        "copy": null,
                         "id": "0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f",
                         "messageType": "transactional",
                         "channel": "email",
@@ -54426,7 +54771,7 @@
         "tags": [
           "templates"
         ],
-        "description": "Creates a reusable email and publishes it as version 1, so a transactional send can use it at once by its `id` or `alias`. An agent key's template stays a draft until a person publishes it.\n\n`transactionalDefaults` holds the subject, preview text and sender that a **transactional send** of this template uses unless the send gives its own, so a subject change needs no deploy. Campaigns and journeys copy the design when they pick the template and set their own subject and sender; later edits to the template don't change them.\n\nA template is one of two kinds, fixed when it is created. A `design` (the default) is built from blocks. An `html` template holds the whole email as `html`, kept as code: saving removes scripts, event handlers, frames, forms, SVG, `javascript:` links and stylesheet links other than Google Fonts (email apps drop them anyway), and keeps the rest as written, Outlook conditional comments included. CSS is not inlined. `POST /v1/templates/render` lists what saving would remove.\n\nEach use checks what it needs: campaigns and journeys refuse raw HTML blocks in a design, and marketing email gets an unsubscribe link and the postal address added at send time unless the email already shows them; in HTML, `{{unsubscribe_url}}` as a link's href places the link.\n\nWith an `alias`, a retry after the first call succeeded is refused with 409 `ALREADY_EXISTS`: the first call created it. Without one, send an `Idempotency-Key`.\n\nRequires API-key scope: `templates:write`.",
+        "description": "Creates a reusable email and publishes it as version 1, so a transactional send can use it at once by its `id` or `alias`. An agent key's template stays a draft until a person publishes it. So does a design with a button or video that has no working link, or a shared block linking to a placeholder address: it is saved with `publishedVersion` null, and publishing it answers what to fix.\n\n`transactionalDefaults` holds the subject, preview text and sender that a **transactional send** of this template uses unless the send gives its own, so a subject change needs no deploy. Campaigns and journeys copy the design when they pick the template and set their own subject and sender; later edits to the template don't change them.\n\nA template is one of two kinds, fixed when it is created. A `design` (the default) is built from blocks. An `html` template holds the whole email as `html`, kept as code: saving removes scripts, event handlers, frames, forms, SVG, `javascript:` links and stylesheet links other than Google Fonts (email apps drop them anyway), and keeps the rest as written, Outlook conditional comments included. CSS is not inlined. `POST /v1/templates/render` lists what saving would remove.\n\nEach use checks what it needs: campaigns and journeys refuse raw HTML blocks in a design, and marketing email gets an unsubscribe link and the postal address added at send time unless the email already shows them; in HTML, `{{unsubscribe_url}}` as a link's href places the link.\n\nWith an `alias`, a retry after the first call succeeded is refused with 409 `ALREADY_EXISTS`: the first call created it. Without one, send an `Idempotency-Key`.\n\nRequires API-key scope: `templates:write`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -55787,7 +56132,7 @@
         "tags": [
           "templates"
         ],
-        "description": "Sends the design or HTML in the request to one workspace member who has accepted their invitation; call once per recipient. Pass `contact` to render merge tags as that contact would see them. The test comes from `from`, or the workspace's default sender, on a verified sending domain: there is no shared sender, so a workspace sends tests once its own domain is verified (`SENDING_DOMAIN_UNVERIFIED` before then). Nothing is recorded as a message. An embed session may call this too: a session lets the chosen builders read what they need, render previews, count audiences, upload images and, when `testSendTo` lists addresses, send test emails to those addresses only. It never saves, publishes or sends anything else; your server saves what the builders return. From a session, the test goes only to an address its `testSendTo` names, instead of to a workspace member (400 `VALIDATION_ERROR` for any other).\n\nRequires API-key scope: `templates:write`.",
+        "description": "Sends the design or HTML in the request to one workspace member who has accepted their invitation; call once per recipient. Pass `contact` to render merge tags as that contact would see them. The test comes from `from`, or the workspace's default sender, on a verified sending domain: there is no shared sender, so a workspace sends tests once its own domain is verified (`SENDING_DOMAIN_UNVERIFIED` before then). A design with a button or video that has no working link is refused (`DRAFT_INCOMPLETE`, naming each one). Nothing is recorded as a message. An embed session may call this too: a session lets the chosen builders read what they need, render previews, count audiences, upload images and, when `testSendTo` lists addresses, send test emails to those addresses only. It never saves, publishes or sends anything else; your server saves what the builders return. From a session, the test goes only to an address its `testSendTo` names, instead of to a workspace member (400 `VALIDATION_ERROR` for any other).\n\nRequires API-key scope: `templates:write`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -55961,7 +56306,7 @@
         "tags": [
           "templates"
         ],
-        "description": "Makes the draft, its `transactionalDefaults` included, the next version, which transactional sends of the template use from then on, with the brand and shared blocks as they are now. When the draft matches the published version and neither has changed, it publishes nothing and returns the template unchanged. Agent keys are refused with 403: a person publishes.\n\nRequires API-key scope: `templates:write`.",
+        "description": "Makes the draft, its `transactionalDefaults` included, the next version, which transactional sends of the template use from then on, with the brand and shared blocks as they are now. When the draft matches the published version and neither has changed, it publishes nothing and returns the template unchanged. A button or video with no working link is refused (`DRAFT_INCOMPLETE`, naming each one). Agent keys are refused with 403: a person publishes.\n\nRequires API-key scope: `templates:write`.",
         "parameters": [
           {
             "schema": {
@@ -56493,7 +56838,7 @@
         "tags": [
           "templates"
         ],
-        "description": "Replaces the draft with that version's content and `transactionalDefaults`, discarding unpublished changes, and publishes it as the next version, so the history records the rollback (nothing new when it is already the live content). Agent keys are refused with 403.\n\nRequires API-key scope: `templates:write`.",
+        "description": "Replaces the draft with that version's content and `transactionalDefaults`, discarding unpublished changes, and publishes it as the next version, so the history records the rollback (nothing new when it is already the live content). A version with a button or video that has no working link is refused (`DRAFT_INCOMPLETE`). Agent keys are refused with 403.\n\nRequires API-key scope: `templates:write`.",
         "parameters": [
           {
             "schema": {
@@ -60730,6 +61075,32 @@
               ]
             },
             "in": "query",
+            "name": "bounced",
+            "required": false,
+            "description": "`true`: a hard bounce was recorded, even if a complaint came later; `false`: none. A test send's acted-out bounce is no recorded bounce."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "in": "query",
+            "name": "complained",
+            "required": false,
+            "description": "`true`: a complaint was recorded; `false`: none. A test send's acted-out complaint is no recorded complaint."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "in": "query",
             "name": "opened",
             "required": false,
             "description": "`true`: opened (or clicked) at least once; `false`: never."
@@ -60824,6 +61195,7 @@
                           },
                           "journey": null,
                           "template": null,
+                          "copy": null,
                           "contact": {
                             "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                             "externalId": "customer-4821",
@@ -60858,6 +61230,7 @@
                             "id": "0192f3f2-3c4d-7e5f-8061-7c8d9e0f1a2b",
                             "version": 3
                           },
+                          "copy": null,
                           "contact": {
                             "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                             "externalId": "customer-4821",
@@ -61004,6 +61377,7 @@
                         },
                         "journey": null,
                         "template": null,
+                        "copy": null,
                         "contact": {
                           "id": "0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d",
                           "externalId": "customer-4821",
@@ -61642,7 +62016,7 @@
                 "schema": {
                   "type": "string",
                   "examples": [
-                    "id,messageType,channel,status,campaignId,campaignName,journeyId,journeyName,journeyEnrollmentId,stepId,templateId,templateVersion,contactId,recipientEmail,simulated,correlationId,sendAt,sentAt,deliveredAt,openedAt,clickedAt,complainedAt,bounceOccurredAt,bounceType,bounceDetail,failureOccurredAt,failureReason,skipOccurredAt,skipReason,createdAt\r\n\"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f\",\"marketing\",\"email\",\"delivered\",\"0192f3d3-5e6f-7071-8c83-9e0f1a2b3c4d\",\"October newsletter\",\"\",\"\",\"\",\"\",\"\",\"\",\"0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d\",\"amaka@example.com\",\"false\",\"\",\"\",\"2026-10-01T09:31:00.000Z\",\"2026-10-01T09:31:04.000Z\",\"2026-10-01T10:02:00.000Z\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"2026-10-01T09:30:58.000Z\"\r\n\"0192f3b0-4d5e-7f60-8b72-8d9e0f1a2b3c\",\"transactional\",\"email\",\"bounced\",\"\",\"\",\"\",\"\",\"\",\"\",\"0192f3f2-3c4d-7e5f-8061-7c8d9e0f1a2b\",\"3\",\"0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d\",\"amaka@example.com\",\"false\",\"order-1001\",\"\",\"2026-10-01T09:31:00.000Z\",\"\",\"\",\"\",\"\",\"2026-10-01T09:31:05.000Z\",\"mailbox_not_found\",\"smtp; 550 5.1.1 user unknown\",\"\",\"\",\"\",\"\",\"2026-10-01T09:30:58.000Z\"\r\n"
+                    "id,messageType,channel,status,campaignId,campaignName,journeyId,journeyName,journeyEnrollmentId,stepId,templateId,templateVersion,copyKind,copyOf,contactId,recipientEmail,simulated,correlationId,sendAt,sentAt,deliveredAt,openedAt,clickedAt,complainedAt,bounceOccurredAt,bounceType,bounceDetail,failureOccurredAt,failureReason,skipOccurredAt,skipReason,createdAt\r\n\"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f\",\"marketing\",\"email\",\"delivered\",\"0192f3d3-5e6f-7071-8c83-9e0f1a2b3c4d\",\"October newsletter\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d\",\"amaka@example.com\",\"false\",\"\",\"\",\"2026-10-01T09:31:00.000Z\",\"2026-10-01T09:31:04.000Z\",\"2026-10-01T10:02:00.000Z\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"2026-10-01T09:30:58.000Z\"\r\n\"0192f3b0-4d5e-7f60-8b72-8d9e0f1a2b3c\",\"transactional\",\"email\",\"bounced\",\"\",\"\",\"\",\"\",\"\",\"\",\"0192f3f2-3c4d-7e5f-8061-7c8d9e0f1a2b\",\"3\",\"\",\"\",\"0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d\",\"amaka@example.com\",\"false\",\"order-1001\",\"\",\"2026-10-01T09:31:00.000Z\",\"\",\"\",\"\",\"\",\"2026-10-01T09:31:05.000Z\",\"mailbox_not_found\",\"smtp; 550 5.1.1 user unknown\",\"\",\"\",\"\",\"\",\"2026-10-01T09:30:58.000Z\"\r\n"
                   ],
                   "description": "The CSV file. Each message is one row, its objects flattened into columns (`campaignName`, `bounceType`, `skipReason`); a cell is `\"\"` where the message has no value."
                 }
@@ -62282,6 +62656,10 @@
                             },
                             "bimi": null
                           },
+                          "review": {
+                            "status": "approved",
+                            "declineReason": null
+                          },
                           "createdAt": "2026-10-01T09:30:00.000Z",
                           "updatedAt": "2026-10-01T09:45:00.000Z"
                         }
@@ -62436,6 +62814,10 @@
                           "mailFrom": "pending",
                           "dmarc": null,
                           "bimi": null
+                        },
+                        "review": {
+                          "status": "not_requested",
+                          "declineReason": null
                         },
                         "createdAt": "2026-10-01T09:30:00.000Z",
                         "updatedAt": "2026-10-01T09:30:00.000Z"
@@ -62602,6 +62984,10 @@
                           "mailFrom": "pending",
                           "dmarc": null,
                           "bimi": null
+                        },
+                        "review": {
+                          "status": "not_requested",
+                          "declineReason": null
                         },
                         "createdAt": "2026-10-01T09:30:00.000Z",
                         "updatedAt": "2026-10-01T09:45:00.000Z"
@@ -62837,6 +63223,10 @@
                           },
                           "bimi": null
                         },
+                        "review": {
+                          "status": "approved",
+                          "declineReason": null
+                        },
                         "createdAt": "2026-10-01T09:30:00.000Z",
                         "updatedAt": "2026-10-01T09:45:00.000Z"
                       }
@@ -63002,6 +63392,110 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/v1/sending-domains/{id}/review": {
+      "post": {
+        "operationId": "requestSendingDomainReview",
+        "summary": "Ask for a sending domain review again",
+        "tags": [
+          "sending-domains"
+        ],
+        "description": "A person at Kirora reviews each sending domain before it can send, against the workspace's sending profile (`website`, `mailKind`, `contactOptIn` in workspace settings); it is asked for on its own once the domain is proven yours and the profile is filled in. Call this to ask again after a decline, once you have changed what its `review.declineReason` names. Refused with `CONFLICT` when the domain is already approved or not yet proven yours, and `VALIDATION_ERROR` while the sending profile is incomplete.\n\nRequires API-key scope: `domains:write`.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The sending domain's id."
+          },
+          {
+            "$ref": "#/components/parameters/KiroraWorkspace"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "x-key-kinds": [
+          "integration",
+          "agent",
+          "partner"
+        ],
+        "x-embed-session": false,
+        "x-retry": "converges",
+        "x-required-scope": "domains:write",
+        "responses": {
+          "200": {
+            "description": "The domain, its review now `in_review`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SendingDomain"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false,
+                  "description": "The domain, its review now `in_review`."
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/XRequestId"
+              },
+              "RateLimit-Limit": {
+                "$ref": "#/components/headers/RateLimitLimit"
+              },
+              "RateLimit-Remaining": {
+                "$ref": "#/components/headers/RateLimitRemaining"
+              },
+              "RateLimit-Reset": {
+                "$ref": "#/components/headers/RateLimitReset"
+              },
+              "Idempotency-Replay": {
+                "$ref": "#/components/headers/IdempotencyReplay"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -66067,6 +66561,9 @@
                           "suspendedAt": null,
                           "deletionRequestedAt": null,
                           "deletesAt": null,
+                          "website": "https://juniperkitchen.co.uk",
+                          "mailKind": "both",
+                          "contactOptIn": "Order confirmations, and offers to diners who tick the box at checkout",
                           "createdAt": "2026-10-01T09:30:00.000Z"
                         }
                       ],
@@ -66190,6 +66687,9 @@
                         "suspendedAt": null,
                         "deletionRequestedAt": null,
                         "deletesAt": null,
+                        "website": "https://juniperkitchen.co.uk",
+                        "mailKind": "both",
+                        "contactOptIn": "Order confirmations, and offers to diners who tick the box at checkout",
                         "createdAt": "2026-10-01T09:30:00.000Z"
                       }
                     }
@@ -66316,6 +66816,9 @@
                         "suspendedAt": null,
                         "deletionRequestedAt": null,
                         "deletesAt": null,
+                        "website": "https://juniperkitchen.co.uk",
+                        "mailKind": "both",
+                        "contactOptIn": "Order confirmations, and offers to diners who tick the box at checkout",
                         "createdAt": "2026-10-01T09:30:00.000Z"
                       }
                     }
@@ -66442,6 +66945,9 @@
                         "suspendedAt": null,
                         "deletionRequestedAt": null,
                         "deletesAt": null,
+                        "website": "https://juniperkitchen.co.uk",
+                        "mailKind": "both",
+                        "contactOptIn": "Order confirmations, and offers to diners who tick the box at checkout",
                         "createdAt": "2026-10-01T09:30:00.000Z"
                       }
                     }
@@ -66559,6 +67065,9 @@
                         "suspendedAt": null,
                         "deletionRequestedAt": "2026-10-02T14:05:00.000Z",
                         "deletesAt": "2026-10-16T14:05:00.000Z",
+                        "website": "https://juniperkitchen.co.uk",
+                        "mailKind": "both",
+                        "contactOptIn": "Order confirmations, and offers to diners who tick the box at checkout",
                         "createdAt": "2026-10-01T09:30:00.000Z"
                       }
                     }
@@ -66675,6 +67184,9 @@
                         "suspendedAt": "2026-10-02T14:05:00.000Z",
                         "deletionRequestedAt": null,
                         "deletesAt": null,
+                        "website": "https://juniperkitchen.co.uk",
+                        "mailKind": "both",
+                        "contactOptIn": "Order confirmations, and offers to diners who tick the box at checkout",
                         "createdAt": "2026-10-01T09:30:00.000Z"
                       }
                     }
@@ -66794,6 +67306,9 @@
                         "suspendedAt": null,
                         "deletionRequestedAt": null,
                         "deletesAt": null,
+                        "website": "https://juniperkitchen.co.uk",
+                        "mailKind": "both",
+                        "contactOptIn": "Order confirmations, and offers to diners who tick the box at checkout",
                         "createdAt": "2026-10-01T09:30:00.000Z"
                       }
                     }
@@ -66913,6 +67428,9 @@
                         "suspendedAt": null,
                         "deletionRequestedAt": null,
                         "deletesAt": null,
+                        "website": "https://juniperkitchen.co.uk",
+                        "mailKind": "both",
+                        "contactOptIn": "Order confirmations, and offers to diners who tick the box at checkout",
                         "createdAt": "2026-10-01T09:30:00.000Z"
                       }
                     }
