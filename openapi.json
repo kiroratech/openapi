@@ -258,6 +258,16 @@
                       },
                       "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
                     },
+                    "purchaseCycle": {
+                      "pattern": "regular",
+                      "usualDaysBetweenPurchases": 30,
+                      "lastPurchasedOn": "2026-03-02",
+                      "expectedNextPurchaseOn": "2026-04-01",
+                      "daysSinceLastPurchase": 52,
+                      "overdueRatio": 1.73,
+                      "cycleStatus": "overdue",
+                      "reason": "Usually buys every 30 days; it's been 52."
+                    },
                     "dates": {
                       "birthday": "1992-03-14"
                     },
@@ -444,6 +454,16 @@
                         "value": 412.5
                       },
                       "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                    },
+                    "purchaseCycle": {
+                      "pattern": "regular",
+                      "usualDaysBetweenPurchases": 30,
+                      "lastPurchasedOn": "2026-03-02",
+                      "expectedNextPurchaseOn": "2026-04-01",
+                      "daysSinceLastPurchase": 52,
+                      "overdueRatio": 1.73,
+                      "cycleStatus": "overdue",
+                      "reason": "Usually buys every 30 days; it's been 52."
                     },
                     "dates": {
                       "birthday": "1992-03-14"
@@ -634,6 +654,16 @@
                         "value": 412.5
                       },
                       "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                    },
+                    "purchaseCycle": {
+                      "pattern": "regular",
+                      "usualDaysBetweenPurchases": 30,
+                      "lastPurchasedOn": "2026-03-02",
+                      "expectedNextPurchaseOn": "2026-04-01",
+                      "daysSinceLastPurchase": 52,
+                      "overdueRatio": 1.73,
+                      "cycleStatus": "overdue",
+                      "reason": "Usually buys every 30 days; it's been 52."
                     },
                     "dates": {
                       "birthday": "1992-03-14"
@@ -874,6 +904,16 @@
                         "value": 412.5
                       },
                       "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                    },
+                    "purchaseCycle": {
+                      "pattern": "regular",
+                      "usualDaysBetweenPurchases": 30,
+                      "lastPurchasedOn": "2026-03-02",
+                      "expectedNextPurchaseOn": "2026-04-01",
+                      "daysSinceLastPurchase": 52,
+                      "overdueRatio": 1.73,
+                      "cycleStatus": "overdue",
+                      "reason": "Usually buys every 30 days; it's been 52."
                     },
                     "dates": {
                       "birthday": "1992-03-14"
@@ -1227,6 +1267,16 @@
                         "value": 412.5
                       },
                       "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                    },
+                    "purchaseCycle": {
+                      "pattern": "regular",
+                      "usualDaysBetweenPurchases": 30,
+                      "lastPurchasedOn": "2026-03-02",
+                      "expectedNextPurchaseOn": "2026-04-01",
+                      "daysSinceLastPurchase": 52,
+                      "overdueRatio": 1.73,
+                      "cycleStatus": "overdue",
+                      "reason": "Usually buys every 30 days; it's been 52."
                     },
                     "dates": {
                       "birthday": "1992-03-14"
@@ -2814,6 +2864,71 @@
         ],
         "additionalProperties": false
       },
+      "DurationInput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "exclusiveMinimum": 0
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "seconds",
+              "minutes",
+              "hours",
+              "days"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "unit"
+        ]
+      },
+      "DurationOrZeroInput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "seconds",
+              "minutes",
+              "hours",
+              "days"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "unit"
+        ]
+      },
+      "SignedDurationInput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "seconds",
+              "minutes",
+              "hours",
+              "days"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "unit"
+        ]
+      },
       "AttributeConditionInput": {
         "type": "object",
         "properties": {
@@ -2895,6 +3010,7 @@
               "consent.push",
               "country",
               "locale",
+              "createdAt",
               "rfmGroup",
               "rfmRecency",
               "rfmFrequency",
@@ -2902,9 +3018,11 @@
               "purchaseCount",
               "totalSpent",
               "lastPurchasedAt",
-              "createdAt"
+              "daysBetweenPurchases",
+              "purchaseOverdueRatio",
+              "purchaseCycleStatus"
             ],
-            "description": "The contact column to test. Each takes these operators, and is refused with others: `email`: equals, notEquals, contains, startsWith, exists, notExists, in; `firstName`: equals, notEquals, contains, startsWith, exists, notExists, in; `lastName`: equals, notEquals, contains, startsWith, exists, notExists, in; `phone`: equals, notEquals, contains, startsWith, exists, notExists, in; `timezone`: equals, notEquals, contains, startsWith, exists, notExists, in; `externalId`: equals, notEquals, contains, startsWith, exists, notExists, in; `consent.email`: equals; `consent.push`: equals; `country`: equals, notEquals, in, exists, notExists; `locale`: equals, notEquals, startsWith, in, exists, notExists; `rfmGroup`: equals, notEquals, in, exists, notExists; `rfmRecency`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `rfmFrequency`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `rfmMonetary`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `purchaseCount`: equals, gt, gte, lt, lte; `totalSpent`: equals, gt, gte, lt, lte; `lastPurchasedAt`: before, after, withinLastDays, moreThanDaysAgo, exists, notExists; `createdAt`: before, after, withinLastDays, moreThanDaysAgo. `phone` holds +country numbers: write `equals`, `notEquals` and `in` values with their country code. Consent takes `\"true\"` or `\"false\"`.\n\nPurchases: `purchaseCount`, `totalSpent` (in the main currency) and `lastPurchasedAt` are a customer's totals of the workspace's purchase event (`purchaseEvent` in workspace settings: an order, a paid invoice, a booking), recomputed daily; the contact's stored `totalSpent` is null when the workspace's purchases carry no amount. In comparisons on `purchaseCount` and `totalSpent` a missing count or spend is 0, so someone who never purchased has 0 purchases and 0 spent.\n\nRFM: `rfmGroup` and its scores `rfmRecency`, `rfmFrequency` and `rfmMonetary` (monetary value: how much they spend) come from the same daily pass. A score is a whole number from 1 to 5, written as text (`\"5\"`; `values` of them for `in`), 5 being the most recent, most frequent or highest spending; any other value is refused with 400. Someone who never purchased has no `rfmGroup` or scores: on those four fields they match only `notExists` and `notEquals`. So `rfmRecency` `notEquals` 5 includes everyone who never purchased; add an `exists` rule on the same field to leave them out (bought, but not recently)."
+            "description": "The contact column to test. Each takes these operators, and is refused with others: `email`: equals, notEquals, contains, startsWith, exists, notExists, in; `firstName`: equals, notEquals, contains, startsWith, exists, notExists, in; `lastName`: equals, notEquals, contains, startsWith, exists, notExists, in; `phone`: equals, notEquals, contains, startsWith, exists, notExists, in; `timezone`: equals, notEquals, contains, startsWith, exists, notExists, in; `externalId`: equals, notEquals, contains, startsWith, exists, notExists, in; `consent.email`: equals; `consent.push`: equals; `country`: equals, notEquals, in, exists, notExists; `locale`: equals, notEquals, startsWith, in, exists, notExists; `createdAt`: before, after, withinLastDays, moreThanDaysAgo; `rfmGroup`: equals, notEquals, in, exists, notExists; `rfmRecency`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `rfmFrequency`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `rfmMonetary`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `purchaseCount`: equals, gt, gte, lt, lte; `totalSpent`: equals, gt, gte, lt, lte; `lastPurchasedAt`: before, after, withinLastDays, moreThanDaysAgo, exists, notExists; `daysBetweenPurchases`: gt, gte, lt, lte, exists, notExists; `purchaseOverdueRatio`: gt, gte, lt, lte, exists, notExists; `purchaseCycleStatus`: equals, notEquals, in, exists, notExists. `phone` holds +country numbers: write `equals`, `notEquals` and `in` values with their country code. Consent takes `\"true\"` or `\"false\"`.\n\nPurchases: `purchaseCount`, `totalSpent` (in the main currency) and `lastPurchasedAt` are a customer's totals of the workspace's purchase event (`purchaseEvent` in workspace settings: an order, a paid invoice, a booking), recomputed daily; the contact's stored `totalSpent` is null when the workspace's purchases carry no amount. In comparisons on `purchaseCount` and `totalSpent` a missing count or spend is 0, so someone who never purchased has 0 purchases and 0 spent.\n\nRFM: `rfmGroup` and its scores `rfmRecency`, `rfmFrequency` and `rfmMonetary` (monetary value: how much they spend) come from the same daily pass. A score is a whole number from 1 to 5, written as text (`\"5\"`; `values` of them for `in`), 5 being the most recent, most frequent or highest spending; any other value is refused with 400. Someone who never purchased has no `rfmGroup` or scores: on those four fields they match only `notExists` and `notEquals`. So `rfmRecency` `notEquals` 5 includes everyone who never purchased; add an `exists` rule on the same field to leave them out (bought, but not recently).\n\nPurchase cycle: `daysBetweenPurchases` is a regular buyer's usual (median) days between purchase days; `purchaseOverdueRatio` the days since their last purchase over that (1.5 is half a cycle late), worked out when the rule runs; `purchaseCycleStatus` its label: `overdue` from 1.5×, `lapsed` from 2×, `dormant` from 3×, else `on_track`. Only a contact with 4 or more purchase days and a regular pattern has them: anyone else matches only `notExists` and `notEquals`, and is never called overdue. These three are on plans that include Kiro: elsewhere a rule on them is refused with 403 `PLAN_FEATURE_UNAVAILABLE`."
           },
           "operator": {
             "type": "string",
@@ -2968,11 +3086,9 @@
             "maxLength": 128,
             "description": "The event name."
           },
-          "withinDays": {
-            "description": "Only events from the last `withinDays` days.",
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 3650
+          "within": {
+            "description": "Only events from the last `within`.",
+            "$ref": "#/components/schemas/DurationInput"
           },
           "notFollowedBy": {
             "description": "Only when this event name did not follow it afterwards.",
@@ -3034,7 +3150,7 @@
                     "moreThanDaysAgo",
                     "inNextDays"
                   ],
-                  "description": "`notEquals` also matches an event without the property. `equals` and `notEquals` ignore case and accents in text. The date operators read the property as a date, as attribute conditions do: UTC days, an ISO-8601 date is the start of that day, and a property that is missing or not an ISO-8601 date or date and time never matches. They read the property's own date; `withinDays` limits when the event happened. Membership moves with the calendar: a contact enters when the date comes into range, with no new event, and a journey triggered by entering the segment then starts for them."
+                  "description": "`notEquals` also matches an event without the property. `equals` and `notEquals` ignore case and accents in text. The date operators read the property as a date, as attribute conditions do: UTC days, an ISO-8601 date is the start of that day, and a property that is missing or not an ISO-8601 date or date and time never matches. They read the property's own date; `within` limits when the event happened. Membership moves with the calendar: a contact enters when the date comes into range, with no new event, and a journey triggered by entering the segment then starts for them."
                 },
                 "value": {
                   "type": "string",
@@ -3132,11 +3248,9 @@
             "type": "string",
             "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
           },
-          "withinDays": {
-            "description": "Only activity from the last `withinDays` days. For `notOpened` and `notClicked` it is a waiting time instead: only messages sent at least this many days ago count, so each has had that long to be opened or clicked.",
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 3650
+          "within": {
+            "description": "Only activity from the last `within`. For `notOpened` and `notClicked` it is a waiting time instead: only messages sent at least this long ago count, so each has had that long to be opened or clicked.",
+            "$ref": "#/components/schemas/DurationInput"
           }
         },
         "required": [
@@ -3562,71 +3676,6 @@
           "domain"
         ],
         "additionalProperties": false
-      },
-      "DurationInput": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "integer",
-            "exclusiveMinimum": 0
-          },
-          "unit": {
-            "type": "string",
-            "enum": [
-              "seconds",
-              "minutes",
-              "hours",
-              "days"
-            ]
-          }
-        },
-        "required": [
-          "value",
-          "unit"
-        ]
-      },
-      "DurationOrZeroInput": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "unit": {
-            "type": "string",
-            "enum": [
-              "seconds",
-              "minutes",
-              "hours",
-              "days"
-            ]
-          }
-        },
-        "required": [
-          "value",
-          "unit"
-        ]
-      },
-      "SignedDurationInput": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "integer"
-          },
-          "unit": {
-            "type": "string",
-            "enum": [
-              "seconds",
-              "minutes",
-              "hours",
-              "days"
-            ]
-          }
-        },
-        "required": [
-          "value",
-          "unit"
-        ]
       },
       "ContactIdentifierInput": {
         "anyOf": [
@@ -9320,7 +9369,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -9357,6 +9406,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -9384,7 +9457,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -9421,6 +9494,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -9456,7 +9553,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -9493,6 +9590,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -9559,7 +9680,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -9596,6 +9717,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -9665,7 +9810,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -9702,6 +9847,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -9864,6 +10033,19 @@
                         ],
                         "additionalProperties": false
                       }
+                    },
+                    "matchTriggerProperty": {
+                      "examples": [
+                        "invoice_id"
+                      ],
+                      "description": "A property the event must share with the event that started the run, so paying invoice A does not end the run for invoice B. A run whose starting event lacks it is not ended by this exit.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "includeEarlierEvents": {
+                      "description": "Also count a matching event from before the run started, checked as the run would start and before each send: a payment that arrived before its failure then starts nothing and sends nothing. Needs `matchTriggerProperty`.",
+                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -11412,6 +11594,19 @@
                 "type": "integer",
                 "exclusiveMinimum": 0,
                 "maximum": 100000000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "minHoursBetweenSends": {
+            "description": "The least time, in hours (1–168), between two of this journey's messages to one contact, across all their runs: a send due sooner waits, and is not dropped. `null` or unset: no gap.",
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 168
               },
               {
                 "type": "null"
@@ -11509,6 +11704,19 @@
                         ],
                         "additionalProperties": false
                       }
+                    },
+                    "matchTriggerProperty": {
+                      "examples": [
+                        "invoice_id"
+                      ],
+                      "description": "A property the event must share with the event that started the run, so paying invoice A does not end the run for invoice B. A run whose starting event lacks it is not ended by this exit.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "includeEarlierEvents": {
+                      "description": "Also count a matching event from before the run started, checked as the run would start and before each send: a payment that arrived before its failure then starts nothing and sends nothing. Needs `matchTriggerProperty`.",
+                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -13057,6 +13265,19 @@
                 "type": "integer",
                 "exclusiveMinimum": 0,
                 "maximum": 100000000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "minHoursBetweenSends": {
+            "description": "The least time, in hours (1–168), between two of this journey's messages to one contact, across all their runs: a send due sooner waits, and is not dropped. `null` or unset: no gap.",
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 168
               },
               {
                 "type": "null"
@@ -15481,12 +15702,13 @@
             },
             "description": "The events, in order."
           },
-          "withinDays": {
-            "default": 7,
-            "description": "How long after the first step a contact has to finish the rest.",
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 90
+          "conversionWindow": {
+            "default": {
+              "value": 7,
+              "unit": "days"
+            },
+            "description": "How long after the first step a contact has to finish the rest: 1 minute to 90 days.",
+            "$ref": "#/components/schemas/DurationInput"
           }
         },
         "required": [
@@ -16061,6 +16283,74 @@
         ],
         "additionalProperties": false
       },
+      "Duration": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "exclusiveMinimum": 0
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "seconds",
+              "minutes",
+              "hours",
+              "days"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "unit"
+        ],
+        "additionalProperties": false
+      },
+      "DurationOrZero": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "seconds",
+              "minutes",
+              "hours",
+              "days"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "unit"
+        ],
+        "additionalProperties": false
+      },
+      "SignedDuration": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "seconds",
+              "minutes",
+              "hours",
+              "days"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "unit"
+        ],
+        "additionalProperties": false
+      },
       "AttributeCondition": {
         "type": "object",
         "properties": {
@@ -16142,6 +16432,7 @@
               "consent.push",
               "country",
               "locale",
+              "createdAt",
               "rfmGroup",
               "rfmRecency",
               "rfmFrequency",
@@ -16149,9 +16440,11 @@
               "purchaseCount",
               "totalSpent",
               "lastPurchasedAt",
-              "createdAt"
+              "daysBetweenPurchases",
+              "purchaseOverdueRatio",
+              "purchaseCycleStatus"
             ],
-            "description": "The contact column to test. Each takes these operators, and is refused with others: `email`: equals, notEquals, contains, startsWith, exists, notExists, in; `firstName`: equals, notEquals, contains, startsWith, exists, notExists, in; `lastName`: equals, notEquals, contains, startsWith, exists, notExists, in; `phone`: equals, notEquals, contains, startsWith, exists, notExists, in; `timezone`: equals, notEquals, contains, startsWith, exists, notExists, in; `externalId`: equals, notEquals, contains, startsWith, exists, notExists, in; `consent.email`: equals; `consent.push`: equals; `country`: equals, notEquals, in, exists, notExists; `locale`: equals, notEquals, startsWith, in, exists, notExists; `rfmGroup`: equals, notEquals, in, exists, notExists; `rfmRecency`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `rfmFrequency`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `rfmMonetary`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `purchaseCount`: equals, gt, gte, lt, lte; `totalSpent`: equals, gt, gte, lt, lte; `lastPurchasedAt`: before, after, withinLastDays, moreThanDaysAgo, exists, notExists; `createdAt`: before, after, withinLastDays, moreThanDaysAgo. `phone` holds +country numbers: write `equals`, `notEquals` and `in` values with their country code. Consent takes `\"true\"` or `\"false\"`.\n\nPurchases: `purchaseCount`, `totalSpent` (in the main currency) and `lastPurchasedAt` are a customer's totals of the workspace's purchase event (`purchaseEvent` in workspace settings: an order, a paid invoice, a booking), recomputed daily; the contact's stored `totalSpent` is null when the workspace's purchases carry no amount. In comparisons on `purchaseCount` and `totalSpent` a missing count or spend is 0, so someone who never purchased has 0 purchases and 0 spent.\n\nRFM: `rfmGroup` and its scores `rfmRecency`, `rfmFrequency` and `rfmMonetary` (monetary value: how much they spend) come from the same daily pass. A score is a whole number from 1 to 5, written as text (`\"5\"`; `values` of them for `in`), 5 being the most recent, most frequent or highest spending; any other value is refused with 400. Someone who never purchased has no `rfmGroup` or scores: on those four fields they match only `notExists` and `notEquals`. So `rfmRecency` `notEquals` 5 includes everyone who never purchased; add an `exists` rule on the same field to leave them out (bought, but not recently)."
+            "description": "The contact column to test. Each takes these operators, and is refused with others: `email`: equals, notEquals, contains, startsWith, exists, notExists, in; `firstName`: equals, notEquals, contains, startsWith, exists, notExists, in; `lastName`: equals, notEquals, contains, startsWith, exists, notExists, in; `phone`: equals, notEquals, contains, startsWith, exists, notExists, in; `timezone`: equals, notEquals, contains, startsWith, exists, notExists, in; `externalId`: equals, notEquals, contains, startsWith, exists, notExists, in; `consent.email`: equals; `consent.push`: equals; `country`: equals, notEquals, in, exists, notExists; `locale`: equals, notEquals, startsWith, in, exists, notExists; `createdAt`: before, after, withinLastDays, moreThanDaysAgo; `rfmGroup`: equals, notEquals, in, exists, notExists; `rfmRecency`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `rfmFrequency`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `rfmMonetary`: equals, notEquals, in, exists, notExists, gt, gte, lt, lte; `purchaseCount`: equals, gt, gte, lt, lte; `totalSpent`: equals, gt, gte, lt, lte; `lastPurchasedAt`: before, after, withinLastDays, moreThanDaysAgo, exists, notExists; `daysBetweenPurchases`: gt, gte, lt, lte, exists, notExists; `purchaseOverdueRatio`: gt, gte, lt, lte, exists, notExists; `purchaseCycleStatus`: equals, notEquals, in, exists, notExists. `phone` holds +country numbers: write `equals`, `notEquals` and `in` values with their country code. Consent takes `\"true\"` or `\"false\"`.\n\nPurchases: `purchaseCount`, `totalSpent` (in the main currency) and `lastPurchasedAt` are a customer's totals of the workspace's purchase event (`purchaseEvent` in workspace settings: an order, a paid invoice, a booking), recomputed daily; the contact's stored `totalSpent` is null when the workspace's purchases carry no amount. In comparisons on `purchaseCount` and `totalSpent` a missing count or spend is 0, so someone who never purchased has 0 purchases and 0 spent.\n\nRFM: `rfmGroup` and its scores `rfmRecency`, `rfmFrequency` and `rfmMonetary` (monetary value: how much they spend) come from the same daily pass. A score is a whole number from 1 to 5, written as text (`\"5\"`; `values` of them for `in`), 5 being the most recent, most frequent or highest spending; any other value is refused with 400. Someone who never purchased has no `rfmGroup` or scores: on those four fields they match only `notExists` and `notEquals`. So `rfmRecency` `notEquals` 5 includes everyone who never purchased; add an `exists` rule on the same field to leave them out (bought, but not recently).\n\nPurchase cycle: `daysBetweenPurchases` is a regular buyer's usual (median) days between purchase days; `purchaseOverdueRatio` the days since their last purchase over that (1.5 is half a cycle late), worked out when the rule runs; `purchaseCycleStatus` its label: `overdue` from 1.5×, `lapsed` from 2×, `dormant` from 3×, else `on_track`. Only a contact with 4 or more purchase days and a regular pattern has them: anyone else matches only `notExists` and `notEquals`, and is never called overdue. These three are on plans that include Kiro: elsewhere a rule on them is refused with 403 `PLAN_FEATURE_UNAVAILABLE`."
           },
           "operator": {
             "type": "string",
@@ -16215,11 +16508,9 @@
             "maxLength": 128,
             "description": "The event name."
           },
-          "withinDays": {
-            "description": "Only events from the last `withinDays` days.",
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 3650
+          "within": {
+            "description": "Only events from the last `within`.",
+            "$ref": "#/components/schemas/Duration"
           },
           "notFollowedBy": {
             "description": "Only when this event name did not follow it afterwards.",
@@ -16281,7 +16572,7 @@
                     "moreThanDaysAgo",
                     "inNextDays"
                   ],
-                  "description": "`notEquals` also matches an event without the property. `equals` and `notEquals` ignore case and accents in text. The date operators read the property as a date, as attribute conditions do: UTC days, an ISO-8601 date is the start of that day, and a property that is missing or not an ISO-8601 date or date and time never matches. They read the property's own date; `withinDays` limits when the event happened. Membership moves with the calendar: a contact enters when the date comes into range, with no new event, and a journey triggered by entering the segment then starts for them."
+                  "description": "`notEquals` also matches an event without the property. `equals` and `notEquals` ignore case and accents in text. The date operators read the property as a date, as attribute conditions do: UTC days, an ISO-8601 date is the start of that day, and a property that is missing or not an ISO-8601 date or date and time never matches. They read the property's own date; `within` limits when the event happened. Membership moves with the calendar: a contact enters when the date comes into range, with no new event, and a journey triggered by entering the segment then starts for them."
                 },
                 "value": {
                   "type": "string",
@@ -16379,11 +16670,9 @@
             "type": "string",
             "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
           },
-          "withinDays": {
-            "description": "Only activity from the last `withinDays` days. For `notOpened` and `notClicked` it is a waiting time instead: only messages sent at least this many days ago count, so each has had that long to be opened or clicked.",
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 3650
+          "within": {
+            "description": "Only activity from the last `within`. For `notOpened` and `notClicked` it is a waiting time instead: only messages sent at least this long ago count, so each has had that long to be opened or clicked.",
+            "$ref": "#/components/schemas/Duration"
           }
         },
         "required": [
@@ -17835,74 +18124,6 @@
         ],
         "additionalProperties": false,
         "description": "Advisory bounce and complaint health on the workspace's lines (`limits`): judged once `sampleSize` and `feedbackCoverage` reach their minimums. Bounces and complaints are recorded ones, so a simulated test bounce never counts."
-      },
-      "Duration": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "integer",
-            "exclusiveMinimum": 0
-          },
-          "unit": {
-            "type": "string",
-            "enum": [
-              "seconds",
-              "minutes",
-              "hours",
-              "days"
-            ]
-          }
-        },
-        "required": [
-          "value",
-          "unit"
-        ],
-        "additionalProperties": false
-      },
-      "DurationOrZero": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "unit": {
-            "type": "string",
-            "enum": [
-              "seconds",
-              "minutes",
-              "hours",
-              "days"
-            ]
-          }
-        },
-        "required": [
-          "value",
-          "unit"
-        ],
-        "additionalProperties": false
-      },
-      "SignedDuration": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "integer"
-          },
-          "unit": {
-            "type": "string",
-            "enum": [
-              "seconds",
-              "minutes",
-              "hours",
-              "days"
-            ]
-          }
-        },
-        "required": [
-          "value",
-          "unit"
-        ],
-        "additionalProperties": false
       },
       "ContactIdentifier": {
         "anyOf": [
@@ -20710,6 +20931,14 @@
                 "description": {
                   "type": "string"
                 },
+                "subject": {
+                  "type": "string",
+                  "description": "A suggested subject line, to start a template or campaign from."
+                },
+                "previewText": {
+                  "type": "string",
+                  "description": "Suggested inbox preview text, shown after the subject."
+                },
                 "categories": {
                   "minItems": 1,
                   "type": "array",
@@ -20771,6 +21000,8 @@
                 "id",
                 "name",
                 "description",
+                "subject",
+                "previewText",
                 "categories",
                 "schemaVersion",
                 "theme",
@@ -21092,11 +21323,11 @@
           "simulated": {
             "type": "integer",
             "minimum": 0,
-            "description": "Of `sent`, test sends whose outcome was acted out: those to `delivered@`, `bounce@` or `complaint@example.com` (the transactional guide's \"Test addresses\"). Counted in `sent` and `delivered`; never in `bounced`, `complained`, `feedbackObserved`, the bounce and complaint rates or `deliverabilityHealth`."
+            "description": "Of `sent`, test sends whose outcome was acted out: those to `delivered@`, `bounce@` or `complaint@example.com` (the transactional guide's \"Test addresses\"). Counted in `sent` and `delivered`; never in `bounced`, `complained`, `feedbackReceived`, the bounce and complaint rates or `deliverabilityHealth`."
           },
-          "feedbackObserved": {
+          "feedbackReceived": {
             "type": "integer",
-            "description": "Of the real sends in `sent`, those whose delivery, bounce or complaint is known."
+            "description": "Of the real sends in `sent`, those the provider has reported a delivery, bounce or complaint for. Each counts once, however many it reported."
           },
           "failed": {
             "type": "integer",
@@ -21128,7 +21359,7 @@
           "openedByMachine",
           "clicked",
           "simulated",
-          "feedbackObserved",
+          "feedbackReceived",
           "failed",
           "failedBeforeSending",
           "skipped",
@@ -25209,6 +25440,87 @@
         ],
         "additionalProperties": false
       },
+      "ContactPurchaseCycle": {
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "enum": [
+              "regular",
+              "not_enough_history",
+              "irregular"
+            ],
+            "description": "`regular`: their usual time between purchases is known; `not_enough_history`: fewer than 4 purchase days; `irregular`: no regular pattern. Only a regular buyer is ever overdue."
+          },
+          "usualDaysBetweenPurchases": {
+            "description": "The median number of days between purchase days; null unless `regular`.",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "lastPurchasedOn": {
+            "type": "string",
+            "format": "date",
+            "description": "The last purchase day, in UTC."
+          },
+          "expectedNextPurchaseOn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The last purchase day plus the usual time between purchases; null unless `regular`."
+          },
+          "daysSinceLastPurchase": {
+            "type": "integer"
+          },
+          "overdueRatio": {
+            "description": "Days since the last purchase over the usual time between purchases: 1 is due today, 1.5 half a cycle late. Null unless `regular`.",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "cycleStatus": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "on_track",
+                  "overdue",
+                  "lapsed",
+                  "dormant"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "`overdue` from 1.5× the usual time between purchases, `lapsed` from 2×, `dormant` from 3×, else `on_track`; null unless `regular`."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why, in plain words: \"Usually buys every 30 days; it's been 52.\""
+          }
+        },
+        "required": [
+          "pattern",
+          "usualDaysBetweenPurchases",
+          "lastPurchasedOn",
+          "expectedNextPurchaseOn",
+          "daysSinceLastPurchase",
+          "overdueRatio",
+          "cycleStatus",
+          "reason"
+        ],
+        "additionalProperties": false,
+        "description": "The contact's purchase cycle from the workspace's purchase event, worked out daily; null for someone who never purchased, and on plans that do not include Kiro."
+      },
       "ContactConsent": {
         "type": "object",
         "properties": {
@@ -25306,6 +25618,16 @@
             ],
             "description": "The contact's RFM (recency, frequency and monetary value) group among the workspace's customers, from its purchase events (the workspace's `purchaseEvent`: an order, a paid invoice, a booking, a donation), each score from 1 to 5 (a fifth of the customers each; 5 is the most recent, most frequent or highest spend), and their purchase totals. Spend counts only purchases in the workspace's main currency; when the purchase carries no amount, `monetary` follows frequency. Recomputed daily, so a purchase today shows tomorrow; `null` for someone who has never purchased."
           },
+          "purchaseCycle": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ContactPurchaseCycle"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "dates": {
             "type": "object",
             "propertyNames": {
@@ -25352,6 +25674,7 @@
           "country",
           "locale",
           "rfm",
+          "purchaseCycle",
           "dates",
           "attributes",
           "consent",
@@ -25532,6 +25855,16 @@
             ],
             "description": "The contact's RFM (recency, frequency and monetary value) group among the workspace's customers, from its purchase events (the workspace's `purchaseEvent`: an order, a paid invoice, a booking, a donation), each score from 1 to 5 (a fifth of the customers each; 5 is the most recent, most frequent or highest spend), and their purchase totals. Spend counts only purchases in the workspace's main currency; when the purchase carries no amount, `monetary` follows frequency. Recomputed daily, so a purchase today shows tomorrow; `null` for someone who has never purchased."
           },
+          "purchaseCycle": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ContactPurchaseCycle"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "dates": {
             "type": "object",
             "propertyNames": {
@@ -25607,6 +25940,7 @@
           "country",
           "locale",
           "rfm",
+          "purchaseCycle",
           "dates",
           "attributes",
           "consent",
@@ -27436,7 +27770,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -27474,6 +27808,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -27502,7 +27860,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -27540,6 +27898,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -27576,7 +27958,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -27614,6 +27996,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -27682,7 +28088,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -27720,6 +28126,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -27790,7 +28220,7 @@
                 "default": {
                   "mode": "once"
                 },
-                "description": "Whether a contact may enter again: `once` (the default), or `repeatable` once `waitAfterEntry` has passed since their last entry started.",
+                "description": "Whether a contact may enter again: `once` (the default); `repeatable` once `waitAfterEntry` has passed since their last entry started; or `once_per_value`, one run per value of `property` on the starting event, so a contact with two failed invoices has two runs and a repeat failure of one starts nothing. An event without that property starts no run.",
                 "oneOf": [
                   {
                     "type": "object",
@@ -27828,6 +28258,30 @@
                     ],
                     "additionalProperties": false,
                     "title": "Repeatable"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "const": "once_per_value"
+                      },
+                      "property": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": [
+                          "invoice_id"
+                        ],
+                        "description": "The property of the starting event whose value keys a run, such as `invoice_id`."
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "property"
+                    ],
+                    "additionalProperties": false,
+                    "title": "Once per value"
                   }
                 ]
               }
@@ -27993,6 +28447,19 @@
                         ],
                         "additionalProperties": false
                       }
+                    },
+                    "matchTriggerProperty": {
+                      "examples": [
+                        "invoice_id"
+                      ],
+                      "description": "A property the event must share with the event that started the run, so paying invoice A does not end the run for invoice B. A run whose starting event lacks it is not ended by this exit.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "includeEarlierEvents": {
+                      "description": "Also count a matching event from before the run started, checked as the run would start and before each send: a payment that arrived before its failure then starts nothing and sends nothing. Needs `matchTriggerProperty`.",
+                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -28053,6 +28520,19 @@
             ],
             "description": "The most enrollments the journey starts over its life; `null` has no cap. It is full once `enrolledCount` reaches it: it stays `active` but nobody new enters."
           },
+          "minHoursBetweenSends": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 168
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The least time, in hours, between two of this journey's messages to one contact, across all their runs; `null`: no gap."
+          },
           "enrolledCount": {
             "type": "integer",
             "minimum": 0,
@@ -28108,6 +28588,7 @@
           "messageLimits",
           "utm",
           "maxEntries",
+          "minHoursBetweenSends",
           "enrolledCount",
           "activeCount",
           "status",
@@ -28192,6 +28673,19 @@
                         ],
                         "additionalProperties": false
                       }
+                    },
+                    "matchTriggerProperty": {
+                      "examples": [
+                        "invoice_id"
+                      ],
+                      "description": "A property the event must share with the event that started the run, so paying invoice A does not end the run for invoice B. A run whose starting event lacks it is not ended by this exit.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "includeEarlierEvents": {
+                      "description": "Also count a matching event from before the run started, checked as the run would start and before each send: a payment that arrived before its failure then starts nothing and sends nothing. Needs `matchTriggerProperty`.",
+                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -28251,6 +28745,19 @@
               }
             ],
             "description": "The most enrollments the journey starts over its life; `null` has no cap. It is full once `enrolledCount` reaches it: it stays `active` but nobody new enters."
+          },
+          "minHoursBetweenSends": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 168
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The least time, in hours, between two of this journey's messages to one contact, across all their runs; `null`: no gap."
           },
           "enrolledCount": {
             "type": "integer",
@@ -28312,6 +28819,7 @@
           "messageLimits",
           "utm",
           "maxEntries",
+          "minHoursBetweenSends",
           "enrolledCount",
           "activeCount",
           "status",
@@ -28539,6 +29047,53 @@
             },
             "description": "Per conversion goal of the journey, conversions in the window credited to its messages."
           },
+          "recovery": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "currency": {
+                      "description": "The invoices' currency, never converted; null when the events gave none.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "runsStarted": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Runs started in the window, one per invoice."
+                    },
+                    "runsPaidWithin14Days": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Of those, runs whose invoice had an `Invoice Paid` within 14 days of the run starting."
+                    },
+                    "amountRecovered": {
+                      "description": "What those invoices owed at their first failure, in major units, counted only for a subscription invoice charged automatically (`collection_method` `charge_automatically` with a `subscription_id`), which one payment clears, or for events that do not send `collection_method` (your own billing); null when `total` is masked from the viewer. Recovered while this journey ran, not necessarily by it: the gateway's own retries recover some anyway.",
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "currency",
+                    "runsStarted",
+                    "runsPaidWithin14Days",
+                    "amountRecovered"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "For a journey keyed per invoice (`once_per_value` on `invoice_id`), payment recovery for runs started in the window, per currency; null for any other journey."
+          },
           "history": {
             "type": "object",
             "properties": {
@@ -28619,6 +29174,7 @@
           "push",
           "messages",
           "conversions",
+          "recovery",
           "history"
         ],
         "additionalProperties": false
@@ -28693,6 +29249,8 @@
                       "no_date",
                       "date_not_due",
                       "entry_conditions_not_met",
+                      "missing_reentry_property",
+                      "exit_condition_already_met",
                       "max_entries_reached",
                       "already_enrolled",
                       "waiting_to_reenter",
@@ -28703,7 +29261,7 @@
                     "type": "null"
                   }
                 ],
-                "description": "Why not; `null` when eligible. `waiting_to_reenter`: their last entry is within `waitAfterEntry`; `loop_capped`: they hit the hourly re-entry cap."
+                "description": "Why not; `null` when eligible. `waiting_to_reenter`: their last entry is within `waitAfterEntry`; `loop_capped`: they hit the hourly re-entry cap; `missing_reentry_property`: the event lacks the property a `once_per_value` journey keys its runs on; `exit_condition_already_met`: an exit that counts earlier events (`includeEarlierEvents`) already happened, such as the invoice being paid."
               }
             },
             "required": [
@@ -32787,9 +33345,9 @@
             "format": "date-time",
             "description": "End of the window, exclusive."
           },
-          "withinDays": {
-            "type": "integer",
-            "description": "The window each contact had to finish in."
+          "conversionWindow": {
+            "description": "The window each contact had to finish in.",
+            "$ref": "#/components/schemas/Duration"
           },
           "steps": {
             "type": "array",
@@ -32802,7 +33360,7 @@
                 "contacts": {
                   "type": "integer",
                   "minimum": 0,
-                  "description": "Contacts who reached this step, in order, within `withinDays` of the first."
+                  "description": "Contacts who reached this step, in order, within `conversionWindow` of the first."
                 },
                 "conversionRate": {
                   "anyOf": [
@@ -32849,7 +33407,7 @@
           "timezone",
           "from",
           "to",
-          "withinDays",
+          "conversionWindow",
           "steps"
         ],
         "additionalProperties": false
@@ -36594,6 +37152,16 @@
                             },
                             "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
                           },
+                          "purchaseCycle": {
+                            "pattern": "regular",
+                            "usualDaysBetweenPurchases": 30,
+                            "lastPurchasedOn": "2026-03-02",
+                            "expectedNextPurchaseOn": "2026-04-01",
+                            "daysSinceLastPurchase": 52,
+                            "overdueRatio": 1.73,
+                            "cycleStatus": "overdue",
+                            "reason": "Usually buys every 30 days; it's been 52."
+                          },
                           "dates": {
                             "birthday": "1992-03-14"
                           },
@@ -36807,6 +37375,16 @@
                           },
                           "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
                         },
+                        "purchaseCycle": {
+                          "pattern": "regular",
+                          "usualDaysBetweenPurchases": 30,
+                          "lastPurchasedOn": "2026-03-02",
+                          "expectedNextPurchaseOn": "2026-04-01",
+                          "daysSinceLastPurchase": 52,
+                          "overdueRatio": 1.73,
+                          "cycleStatus": "overdue",
+                          "reason": "Usually buys every 30 days; it's been 52."
+                        },
                         "dates": {
                           "birthday": "1992-03-14"
                         },
@@ -36858,6 +37436,16 @@
                             "value": 412.5
                           },
                           "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                        },
+                        "purchaseCycle": {
+                          "pattern": "regular",
+                          "usualDaysBetweenPurchases": 30,
+                          "lastPurchasedOn": "2026-03-02",
+                          "expectedNextPurchaseOn": "2026-04-01",
+                          "daysSinceLastPurchase": 52,
+                          "overdueRatio": 1.73,
+                          "cycleStatus": "overdue",
+                          "reason": "Usually buys every 30 days; it's been 52."
                         },
                         "dates": {
                           "birthday": "1992-03-14"
@@ -36962,6 +37550,16 @@
                             "value": 412.5
                           },
                           "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                        },
+                        "purchaseCycle": {
+                          "pattern": "regular",
+                          "usualDaysBetweenPurchases": 30,
+                          "lastPurchasedOn": "2026-03-02",
+                          "expectedNextPurchaseOn": "2026-04-01",
+                          "daysSinceLastPurchase": 52,
+                          "overdueRatio": 1.73,
+                          "cycleStatus": "overdue",
+                          "reason": "Usually buys every 30 days; it's been 52."
                         },
                         "dates": {
                           "birthday": "1992-03-14"
@@ -37159,6 +37757,16 @@
                                   "value": 412.5
                                 },
                                 "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                              },
+                              "purchaseCycle": {
+                                "pattern": "regular",
+                                "usualDaysBetweenPurchases": 30,
+                                "lastPurchasedOn": "2026-03-02",
+                                "expectedNextPurchaseOn": "2026-04-01",
+                                "daysSinceLastPurchase": 52,
+                                "overdueRatio": 1.73,
+                                "cycleStatus": "overdue",
+                                "reason": "Usually buys every 30 days; it's been 52."
                               },
                               "dates": {
                                 "birthday": "1992-03-14"
@@ -37366,6 +37974,16 @@
                           },
                           "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
                         },
+                        "purchaseCycle": {
+                          "pattern": "regular",
+                          "usualDaysBetweenPurchases": 30,
+                          "lastPurchasedOn": "2026-03-02",
+                          "expectedNextPurchaseOn": "2026-04-01",
+                          "daysSinceLastPurchase": 52,
+                          "overdueRatio": 1.73,
+                          "cycleStatus": "overdue",
+                          "reason": "Usually buys every 30 days; it's been 52."
+                        },
                         "dates": {
                           "birthday": "1992-03-14"
                         },
@@ -37545,6 +38163,16 @@
                             "value": 412.5
                           },
                           "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                        },
+                        "purchaseCycle": {
+                          "pattern": "regular",
+                          "usualDaysBetweenPurchases": 30,
+                          "lastPurchasedOn": "2026-03-02",
+                          "expectedNextPurchaseOn": "2026-04-01",
+                          "daysSinceLastPurchase": 52,
+                          "overdueRatio": 1.73,
+                          "cycleStatus": "overdue",
+                          "reason": "Usually buys every 30 days; it's been 52."
                         },
                         "dates": {
                           "birthday": "1992-03-14"
@@ -37980,6 +38608,16 @@
                           },
                           "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
                         },
+                        "purchaseCycle": {
+                          "pattern": "regular",
+                          "usualDaysBetweenPurchases": 30,
+                          "lastPurchasedOn": "2026-03-02",
+                          "expectedNextPurchaseOn": "2026-04-01",
+                          "daysSinceLastPurchase": 52,
+                          "overdueRatio": 1.73,
+                          "cycleStatus": "overdue",
+                          "reason": "Usually buys every 30 days; it's been 52."
+                        },
                         "dates": {
                           "birthday": "1992-03-14"
                         },
@@ -38345,6 +38983,16 @@
                               "value": 412.5
                             },
                             "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                          },
+                          "purchaseCycle": {
+                            "pattern": "regular",
+                            "usualDaysBetweenPurchases": 30,
+                            "lastPurchasedOn": "2026-03-02",
+                            "expectedNextPurchaseOn": "2026-04-01",
+                            "daysSinceLastPurchase": 52,
+                            "overdueRatio": 1.73,
+                            "cycleStatus": "overdue",
+                            "reason": "Usually buys every 30 days; it's been 52."
                           },
                           "dates": {
                             "birthday": "1992-03-14"
@@ -43124,7 +43772,10 @@
                                   "operator": "equals",
                                   "value": 0
                                 },
-                                "withinDays": 90
+                                "within": {
+                                  "value": 90,
+                                  "unit": "days"
+                                }
                               },
                               {
                                 "type": "list",
@@ -43222,7 +43873,10 @@
                             "operator": "equals",
                             "value": 0
                           },
-                          "withinDays": 90
+                          "within": {
+                            "value": 90,
+                            "unit": "days"
+                          }
                         },
                         {
                           "type": "list",
@@ -43262,7 +43916,10 @@
                         {
                           "type": "activity",
                           "activity": "clicked",
-                          "withinDays": 30
+                          "within": {
+                            "value": 30,
+                            "unit": "days"
+                          }
                         }
                       ]
                     }
@@ -43320,7 +43977,10 @@
                                 "operator": "equals",
                                 "value": 0
                               },
-                              "withinDays": 90
+                              "within": {
+                                "value": 90,
+                                "unit": "days"
+                              }
                             },
                             {
                               "type": "list",
@@ -43368,7 +44028,10 @@
                             {
                               "type": "activity",
                               "activity": "clicked",
-                              "withinDays": 30
+                              "within": {
+                                "value": 30,
+                                "unit": "days"
+                              }
                             }
                           ]
                         },
@@ -43514,7 +44177,10 @@
                                 "operator": "equals",
                                 "value": 0
                               },
-                              "withinDays": 90
+                              "within": {
+                                "value": 90,
+                                "unit": "days"
+                              }
                             },
                             {
                               "type": "list",
@@ -43603,7 +44269,10 @@
                             "operator": "equals",
                             "value": 0
                           },
-                          "withinDays": 180
+                          "within": {
+                            "value": 180,
+                            "unit": "days"
+                          }
                         },
                         {
                           "type": "list",
@@ -43683,7 +44352,10 @@
                                 "operator": "equals",
                                 "value": 0
                               },
-                              "withinDays": 180
+                              "within": {
+                                "value": 180,
+                                "unit": "days"
+                              }
                             },
                             {
                               "type": "list",
@@ -43862,7 +44534,10 @@
                             "operator": "equals",
                             "value": 0
                           },
-                          "withinDays": 90
+                          "within": {
+                            "value": 90,
+                            "unit": "days"
+                          }
                         },
                         {
                           "type": "list",
@@ -44137,6 +44812,16 @@
                             },
                             "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
                           },
+                          "purchaseCycle": {
+                            "pattern": "regular",
+                            "usualDaysBetweenPurchases": 30,
+                            "lastPurchasedOn": "2026-03-02",
+                            "expectedNextPurchaseOn": "2026-04-01",
+                            "daysSinceLastPurchase": 52,
+                            "overdueRatio": 1.73,
+                            "cycleStatus": "overdue",
+                            "reason": "Usually buys every 30 days; it's been 52."
+                          },
                           "dates": {
                             "birthday": "1992-03-14"
                           },
@@ -44383,6 +45068,16 @@
                               "value": 412.5
                             },
                             "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                          },
+                          "purchaseCycle": {
+                            "pattern": "regular",
+                            "usualDaysBetweenPurchases": 30,
+                            "lastPurchasedOn": "2026-03-02",
+                            "expectedNextPurchaseOn": "2026-04-01",
+                            "daysSinceLastPurchase": 52,
+                            "overdueRatio": 1.73,
+                            "cycleStatus": "overdue",
+                            "reason": "Usually buys every 30 days; it's been 52."
                           },
                           "dates": {
                             "birthday": "1992-03-14"
@@ -51633,6 +52328,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 0,
                         "activeCount": 0,
                         "status": "draft",
@@ -51831,6 +52527,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 128,
                         "activeCount": 12,
                         "status": "active",
@@ -52027,6 +52724,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 0,
                         "activeCount": 0,
                         "status": "draft",
@@ -52462,6 +53160,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 128,
                         "activeCount": 12,
                         "status": "active",
@@ -52544,6 +53243,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 128,
                         "activeCount": 12,
                         "status": "active",
@@ -52738,6 +53438,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 128,
                         "activeCount": 12,
                         "status": "paused",
@@ -52926,6 +53627,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 128,
                         "activeCount": 0,
                         "status": "ended",
@@ -53137,6 +53839,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 0,
                         "activeCount": 0,
                         "status": "draft",
@@ -53219,6 +53922,7 @@
                         },
                         "utm": null,
                         "maxEntries": null,
+                        "minHoursBetweenSends": null,
                         "enrolledCount": 0,
                         "activeCount": 0,
                         "status": "draft",
@@ -53431,6 +54135,7 @@
                             "revenueWithheld": false
                           }
                         ],
+                        "recovery": null,
                         "history": {
                           "from": "2026-09-26T00:00:00.000Z",
                           "to": "2026-10-03T00:00:00.000Z",
@@ -55678,6 +56383,8 @@
                             "id": "welcome",
                             "name": "Welcome",
                             "description": "A short welcome with one call to action.",
+                            "subject": "Welcome to {{ org.name }}: three steps to get started",
+                            "previewText": "Set up your profile, bring in your work and invite a teammate. Stuck? Just reply to this email.",
                             "categories": [
                               "onboarding"
                             ],
@@ -64836,7 +65543,7 @@
                           "nextAttemptAt": null,
                           "responseStatus": 503,
                           "failureReason": "HTTP 503",
-                          "requestBody": "{\"eventId\":\"01a0f2cf-4444-7555-8666-777788889999\",\"eventType\":\"contact.unsubscribed\",\"occurredAt\":\"2026-10-01T09:30:00.000Z\",\"data\":{\"contact\":{\"id\":\"0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d\",\"externalId\":\"customer-4821\",\"email\":\"amaka@example.com\",\"firstName\":\"Amaka\",\"lastName\":\"Obi\",\"phone\":\"+447700900123\",\"timezone\":\"Europe/London\",\"country\":\"GB\",\"locale\":\"en-NG\",\"rfm\":{\"group\":\"loyal\",\"recency\":3,\"frequency\":4,\"monetary\":5,\"purchaseCount\":6,\"totalSpent\":{\"currency\":\"USD\",\"value\":412.5},\"lastPurchasedAt\":\"2026-03-02T18:20:00.000Z\"},\"dates\":{\"birthday\":\"1992-03-14\"},\"attributes\":{\"plan\":\"pro\",\"favourite_spice\":\"smoked paprika\",\"orders\":3},\"consent\":{\"email\":false,\"push\":false},\"createdAt\":\"2026-09-12T08:15:00.000Z\",\"updatedAt\":\"2026-10-01T09:30:00.000Z\"},\"channel\":\"email\",\"messageId\":\"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f\",\"campaignId\":\"0192f3d3-5e6f-7071-8c83-9e0f1a2b3c4d\",\"topicId\":null}}",
+                          "requestBody": "{\"eventId\":\"01a0f2cf-4444-7555-8666-777788889999\",\"eventType\":\"contact.unsubscribed\",\"occurredAt\":\"2026-10-01T09:30:00.000Z\",\"data\":{\"contact\":{\"id\":\"0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d\",\"externalId\":\"customer-4821\",\"email\":\"amaka@example.com\",\"firstName\":\"Amaka\",\"lastName\":\"Obi\",\"phone\":\"+447700900123\",\"timezone\":\"Europe/London\",\"country\":\"GB\",\"locale\":\"en-NG\",\"rfm\":{\"group\":\"loyal\",\"recency\":3,\"frequency\":4,\"monetary\":5,\"purchaseCount\":6,\"totalSpent\":{\"currency\":\"USD\",\"value\":412.5},\"lastPurchasedAt\":\"2026-03-02T18:20:00.000Z\"},\"purchaseCycle\":{\"pattern\":\"regular\",\"usualDaysBetweenPurchases\":30,\"lastPurchasedOn\":\"2026-03-02\",\"expectedNextPurchaseOn\":\"2026-04-01\",\"daysSinceLastPurchase\":52,\"overdueRatio\":1.73,\"cycleStatus\":\"overdue\",\"reason\":\"Usually buys every 30 days; it's been 52.\"},\"dates\":{\"birthday\":\"1992-03-14\"},\"attributes\":{\"plan\":\"pro\",\"favourite_spice\":\"smoked paprika\",\"orders\":3},\"consent\":{\"email\":false,\"push\":false},\"createdAt\":\"2026-09-12T08:15:00.000Z\",\"updatedAt\":\"2026-10-01T09:30:00.000Z\"},\"channel\":\"email\",\"messageId\":\"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f\",\"campaignId\":\"0192f3d3-5e6f-7071-8c83-9e0f1a2b3c4d\",\"topicId\":null}}",
                           "responseBody": "Service Unavailable",
                           "createdAt": "2026-10-02T14:05:00.000Z",
                           "deliveredAt": null
@@ -65078,7 +65785,7 @@
                         "nextAttemptAt": "2026-10-02T14:05:00.000Z",
                         "responseStatus": 503,
                         "failureReason": null,
-                        "requestBody": "{\"eventId\":\"01a0f2cf-4444-7555-8666-777788889999\",\"eventType\":\"contact.unsubscribed\",\"occurredAt\":\"2026-10-01T09:30:00.000Z\",\"data\":{\"contact\":{\"id\":\"0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d\",\"externalId\":\"customer-4821\",\"email\":\"amaka@example.com\",\"firstName\":\"Amaka\",\"lastName\":\"Obi\",\"phone\":\"+447700900123\",\"timezone\":\"Europe/London\",\"country\":\"GB\",\"locale\":\"en-NG\",\"rfm\":{\"group\":\"loyal\",\"recency\":3,\"frequency\":4,\"monetary\":5,\"purchaseCount\":6,\"totalSpent\":{\"currency\":\"USD\",\"value\":412.5},\"lastPurchasedAt\":\"2026-03-02T18:20:00.000Z\"},\"dates\":{\"birthday\":\"1992-03-14\"},\"attributes\":{\"plan\":\"pro\",\"favourite_spice\":\"smoked paprika\",\"orders\":3},\"consent\":{\"email\":false,\"push\":false},\"createdAt\":\"2026-09-12T08:15:00.000Z\",\"updatedAt\":\"2026-10-01T09:30:00.000Z\"},\"channel\":\"email\",\"messageId\":\"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f\",\"campaignId\":\"0192f3d3-5e6f-7071-8c83-9e0f1a2b3c4d\",\"topicId\":null}}",
+                        "requestBody": "{\"eventId\":\"01a0f2cf-4444-7555-8666-777788889999\",\"eventType\":\"contact.unsubscribed\",\"occurredAt\":\"2026-10-01T09:30:00.000Z\",\"data\":{\"contact\":{\"id\":\"0192f3a1-7c2e-7d4b-9a10-3e5f6a7b8c9d\",\"externalId\":\"customer-4821\",\"email\":\"amaka@example.com\",\"firstName\":\"Amaka\",\"lastName\":\"Obi\",\"phone\":\"+447700900123\",\"timezone\":\"Europe/London\",\"country\":\"GB\",\"locale\":\"en-NG\",\"rfm\":{\"group\":\"loyal\",\"recency\":3,\"frequency\":4,\"monetary\":5,\"purchaseCount\":6,\"totalSpent\":{\"currency\":\"USD\",\"value\":412.5},\"lastPurchasedAt\":\"2026-03-02T18:20:00.000Z\"},\"purchaseCycle\":{\"pattern\":\"regular\",\"usualDaysBetweenPurchases\":30,\"lastPurchasedOn\":\"2026-03-02\",\"expectedNextPurchaseOn\":\"2026-04-01\",\"daysSinceLastPurchase\":52,\"overdueRatio\":1.73,\"cycleStatus\":\"overdue\",\"reason\":\"Usually buys every 30 days; it's been 52.\"},\"dates\":{\"birthday\":\"1992-03-14\"},\"attributes\":{\"plan\":\"pro\",\"favourite_spice\":\"smoked paprika\",\"orders\":3},\"consent\":{\"email\":false,\"push\":false},\"createdAt\":\"2026-09-12T08:15:00.000Z\",\"updatedAt\":\"2026-10-01T09:30:00.000Z\"},\"channel\":\"email\",\"messageId\":\"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f\",\"campaignId\":\"0192f3d3-5e6f-7071-8c83-9e0f1a2b3c4d\",\"topicId\":null}}",
                         "responseBody": "Service Unavailable",
                         "createdAt": "2026-10-02T14:05:00.000Z",
                         "deliveredAt": null
@@ -65209,6 +65916,16 @@
                                     "value": 412.5
                                   },
                                   "lastPurchasedAt": "2026-03-02T18:20:00.000Z"
+                                },
+                                "purchaseCycle": {
+                                  "pattern": "regular",
+                                  "usualDaysBetweenPurchases": 30,
+                                  "lastPurchasedOn": "2026-03-02",
+                                  "expectedNextPurchaseOn": "2026-04-01",
+                                  "daysSinceLastPurchase": 52,
+                                  "overdueRatio": 1.73,
+                                  "cycleStatus": "overdue",
+                                  "reason": "Usually buys every 30 days; it's been 52."
                                 },
                                 "dates": {
                                   "birthday": "1992-03-14"
@@ -65670,7 +66387,7 @@
                             "openedByMachine": 480,
                             "clicked": 384,
                             "simulated": 0,
-                            "feedbackObserved": 4000,
+                            "feedbackReceived": 4000,
                             "failed": 12,
                             "failedBeforeSending": 8,
                             "skipped": 80,
@@ -65685,7 +66402,7 @@
                             "openedByMachine": 360,
                             "clicked": 288,
                             "simulated": 0,
-                            "feedbackObserved": 3000,
+                            "feedbackReceived": 3000,
                             "failed": 9,
                             "failedBeforeSending": 6,
                             "skipped": 60,
@@ -65700,7 +66417,7 @@
                             "openedByMachine": 120,
                             "clicked": 96,
                             "simulated": 0,
-                            "feedbackObserved": 1000,
+                            "feedbackReceived": 1000,
                             "failed": 3,
                             "failedBeforeSending": 2,
                             "skipped": 20,
@@ -65785,7 +66502,7 @@
                               "openedByMachine": 120,
                               "clicked": 96,
                               "simulated": 0,
-                              "feedbackObserved": 1000,
+                              "feedbackReceived": 1000,
                               "failed": 3,
                               "failedBeforeSending": 2,
                               "skipped": 20,
@@ -65816,7 +66533,7 @@
                               "openedByMachine": 120,
                               "clicked": 96,
                               "simulated": 0,
-                              "feedbackObserved": 1000,
+                              "feedbackReceived": 1000,
                               "failed": 3,
                               "failedBeforeSending": 2,
                               "skipped": 20,
@@ -66110,7 +66827,7 @@
         "tags": [
           "reports"
         ],
-        "description": "Counts the contacts who did each step's event, in order. A contact enters with the first step's earliest event in the window (`from` inclusive, `to` exclusive; a date bound is the start of that day in the workspace timezone; default the last 30 days), and reaches a later step with an event after the previous step's, within `withinDays` of entering. Each contact counts once per step, however many times they repeat it. Events past retention are no longer held. Needs a plan with advanced reports: without one, 403 `PLAN_FEATURE_UNAVAILABLE`. A read sent as `POST` for its body of steps: it takes no `Idempotency-Key`.\n\nRequires API-key scope: `reports:read`.",
+        "description": "Counts the contacts who did each step's event, in order. A contact enters with the first step's earliest event in the window (`from` inclusive, `to` exclusive; a date bound is the start of that day in the workspace timezone; default the last 30 days), and reaches a later step with an event after the previous step's, within `conversionWindow` of entering. Each contact counts once per step, however many times they repeat it. Events past retention are no longer held. Needs a plan with advanced reports: without one, 403 `PLAN_FEATURE_UNAVAILABLE`. A read sent as `POST` for its body of steps: it takes no `Idempotency-Key`.\n\nRequires API-key scope: `reports:read`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -66139,7 +66856,10 @@
                         ]
                       }
                     ],
-                    "withinDays": 7
+                    "conversionWindow": {
+                      "value": 7,
+                      "unit": "days"
+                    }
                   }
                 }
               }
@@ -66186,7 +66906,10 @@
                         "timezone": "Europe/London",
                         "from": "2026-08-31T23:00:00.000Z",
                         "to": "2026-09-30T23:00:00.000Z",
-                        "withinDays": 7,
+                        "conversionWindow": {
+                          "value": 7,
+                          "unit": "days"
+                        },
                         "steps": [
                           {
                             "eventName": "Cart Abandoned",
