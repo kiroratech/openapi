@@ -15616,7 +15616,7 @@
         "type": "object",
         "properties": {
           "from": {
-            "description": "Start of the window, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days.",
+            "description": "Start of the window, inclusive: a date-time on a quarter hour (`…T18:30:00Z`), or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days.",
             "anyOf": [
               {
                 "type": "string",
@@ -16047,6 +16047,16 @@
           },
           "createdBefore": {
             "description": "Only messages accepted before this time (exclusive).",
+            "type": "string",
+            "format": "date-time"
+          },
+          "countedAfter": {
+            "description": "Only messages the send reports count at or after this time (inclusive): when each was sent, or accepted if it never was. With a report's resolved `from` and `to`, lists the messages behind its send counts (the overview, the comparisons, campaign, journey and step metrics, the transactional report). Not the campaign series, which counts each outcome when it happened.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "countedBefore": {
+            "description": "Only messages the send reports count before this time (exclusive), in the same sense.",
             "type": "string",
             "format": "date-time"
           }
@@ -33197,7 +33207,7 @@
           "firstAttemptedAt": {
             "type": "string",
             "format": "date-time",
-            "description": "The campaign's first message in the window: when it was sent, or queued for one never sent. Not the campaign schedule."
+            "description": "When the campaign first sent, failed or skipped a message, in or before the window; while every message still waits, when it was due to send."
           },
           "email": {
             "type": "object",
@@ -36473,6 +36483,16 @@
           },
           "createdBefore": {
             "description": "Only messages accepted before this time (exclusive).",
+            "type": "string",
+            "format": "date-time"
+          },
+          "countedAfter": {
+            "description": "Only messages the send reports count at or after this time (inclusive): when each was sent, or accepted if it never was. With a report's resolved `from` and `to`, lists the messages behind its send counts (the overview, the comparisons, campaign, journey and step metrics, the transactional report). Not the campaign series, which counts each outcome when it happened.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "countedBefore": {
+            "description": "Only messages the send reports count before this time (exclusive), in the same sense.",
             "type": "string",
             "format": "date-time"
           }
@@ -45178,7 +45198,7 @@
             "in": "query",
             "name": "from",
             "required": false,
-            "description": "Start of the window, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
+            "description": "Start of the window, inclusive: a date-time on a quarter hour (`…T18:30:00Z`), or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
           },
           {
             "schema": {
@@ -54016,7 +54036,7 @@
             "in": "query",
             "name": "from",
             "required": false,
-            "description": "Start of the window, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
+            "description": "Start of the window, inclusive: a date-time on a quarter hour (`…T18:30:00Z`), or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
           },
           {
             "schema": {
@@ -54226,7 +54246,7 @@
             "in": "query",
             "name": "from",
             "required": false,
-            "description": "Count only the enrollments that entered from then, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for all time."
+            "description": "Count only the enrollments that entered from then, and the messages sent from then, inclusive: a date-time on a quarter hour, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for all time."
           },
           {
             "schema": {
@@ -54244,7 +54264,7 @@
             "in": "query",
             "name": "to",
             "required": false,
-            "description": "Count only the enrollments that entered before then, exclusive, in the same forms. To include a whole last day, pass the day after it. No later than the end of today; a window touches at most 366 days. Give with `from`."
+            "description": "Count only the enrollments that entered, and the messages sent, before then, exclusive, in the same forms. To include a whole last day, pass the day after it. No later than the end of today; a window touches at most 366 days. Give with `from`."
           },
           {
             "schema": {
@@ -55152,7 +55172,7 @@
             "in": "query",
             "name": "from",
             "required": false,
-            "description": "Start of the window, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
+            "description": "Start of the window, inclusive: a date-time on a quarter hour (`…T18:30:00Z`), or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
           },
           {
             "schema": {
@@ -61446,7 +61466,7 @@
             "in": "query",
             "name": "from",
             "required": false,
-            "description": "Start of the window, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days. A date-time falls on a quarter hour, since views are counted per quarter hour."
+            "description": "Start of the window, inclusive: a date-time on a quarter hour (`…T18:30:00Z`), or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
           },
           {
             "schema": {
@@ -61609,7 +61629,7 @@
         "tags": [
           "messages"
         ],
-        "description": "Lists the workspace message log: one row per outbound message from campaigns, journeys and transactional sends, newest first, whether it was sent, is still queued, or was skipped or failed. `campaign` and `journey` say where a row came from (neither, for a transactional send), and `bounce`, `failure` or `skip` what became of it.\n\n**Filters.** `recipient` matches the address a message was sent to, and also email messages not yet given one (queued, or skipped before sending) whose contact's current email is that address. Messages past the retention period name no one and match no `recipient`. `query` is a search: part of the recipient's address or name, matched against the contact each message went to. `campaignId` and `journeyId` narrow to one source, and `stepId` with `journeyId` to one step of the journey, in every version of its steps. `templateId` and `correlationId` narrow to transactional sends, from one stored template or carrying your own reference. `opened` and `clicked` split by engagement. `createdAfter` is inclusive and `createdBefore` exclusive. No total is returned.\n\nRequires API-key scope: `messages:read`.",
+        "description": "Lists the workspace message log: one row per outbound message from campaigns, journeys and transactional sends, newest first, whether it was sent, is still queued, or was skipped or failed. `campaign` and `journey` say where a row came from (neither, for a transactional send), and `bounce`, `failure` or `skip` what became of it.\n\n**Filters.** `recipient` matches the address a message was sent to, and also email messages not yet given one (queued, or skipped before sending) whose contact's current email is that address. Messages past the plan's history period are deleted and not listed; a deleted contact's messages name no one and match no `recipient`. `query` is a search: part of the recipient's address or name, matched against the contact each message went to. `campaignId` and `journeyId` narrow to one source, and `stepId` with `journeyId` to one step of the journey, in every version of its steps. `templateId` and `correlationId` narrow to transactional sends, from one stored template or carrying your own reference. `opened` and `clicked` split by engagement. `createdAfter` is inclusive and `createdBefore` exclusive. `countedAfter` and `countedBefore` bound when the send reports count each message (sent, or accepted if never sent): with a report's resolved `from` and `to`, they list the messages behind its counts. No total is returned.\n\nRequires API-key scope: `messages:read`.",
         "parameters": [
           {
             "schema": {
@@ -61844,6 +61864,26 @@
             "name": "createdBefore",
             "required": false,
             "description": "Only messages accepted before this time (exclusive)."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "countedAfter",
+            "required": false,
+            "description": "Only messages the send reports count at or after this time (inclusive): when each was sent, or accepted if it never was. With a report's resolved `from` and `to`, lists the messages behind its send counts (the overview, the comparisons, campaign, journey and step metrics, the transactional report). Not the campaign series, which counts each outcome when it happened."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "countedBefore",
+            "required": false,
+            "description": "Only messages the send reports count before this time (exclusive), in the same sense."
           },
           {
             "$ref": "#/components/parameters/KiroraWorkspace"
@@ -66043,7 +66083,7 @@
             "in": "query",
             "name": "from",
             "required": false,
-            "description": "Start of the window, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
+            "description": "Start of the window, inclusive: a date-time on a quarter hour (`…T18:30:00Z`), or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
           },
           {
             "schema": {
@@ -66301,7 +66341,7 @@
             "in": "query",
             "name": "from",
             "required": false,
-            "description": "Start of the window, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
+            "description": "Start of the window, inclusive: a date-time on a quarter hour (`…T18:30:00Z`), or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
           },
           {
             "schema": {
@@ -66621,7 +66661,7 @@
             "in": "query",
             "name": "from",
             "required": false,
-            "description": "Start of the window, inclusive: a date-time, or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
+            "description": "Start of the window, inclusive: a date-time on a quarter hour (`…T18:30:00Z`), or a date meaning the start of that day in the workspace timezone. Give with `to`; omit both for the last 30 days."
           },
           {
             "schema": {
