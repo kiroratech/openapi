@@ -21841,7 +21841,7 @@
               "revenueWithheld"
             ],
             "additionalProperties": false,
-            "description": "Goal conversions a message drove, by when they happened, from email and push alike: a conversion is one order, whichever message gets the credit. An event credited to several campaigns' or journeys' goals counts once here, though each goal's own report counts it. Revenue is summed per goal currency and never converted; goals without a currency share the null row."
+            "description": "Goal conversions a message drove, by when they happened, from email and push alike: a conversion is one order, whichever message gets the credit. Each event is credited once, to the latest campaign or journey message whose goal counts it; where several of that message's goals count the same event, it counts once here, though each of those goals' reports counts it. Revenue is summed per goal currency and never converted; goals without a currency share the null row."
           },
           "refunds": {
             "type": "array",
