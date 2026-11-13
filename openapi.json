@@ -15838,6 +15838,28 @@
                     "maxLength": 128,
                     "description": "Your own stable id for the device; registering it again updates it."
                   },
+                  "appVersion": {
+                    "description": "The app's version string, such as `2.4.0`. Not sent from the web.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "osVersion": {
+                    "description": "The operating system version, such as `17.4.1`. Not sent from the web.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "locale": {
+                    "description": "The device's language, a BCP 47 tag such as `en-GB`.",
+                    "type": "string",
+                    "maxLength": 35
+                  },
+                  "timezone": {
+                    "description": "The device's IANA time zone, such as `Africa/Lagos`.",
+                    "type": "string",
+                    "maxLength": 100
+                  },
                   "permission": {
                     "type": "string",
                     "enum": [
@@ -15883,6 +15905,28 @@
                     "minLength": 1,
                     "maxLength": 128,
                     "description": "Your own stable id for the device; registering it again updates it."
+                  },
+                  "appVersion": {
+                    "description": "The app's version string, such as `2.4.0`. Not sent from the web.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "osVersion": {
+                    "description": "The operating system version, such as `17.4.1`. Not sent from the web.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "locale": {
+                    "description": "The device's language, a BCP 47 tag such as `en-GB`.",
+                    "type": "string",
+                    "maxLength": 35
+                  },
+                  "timezone": {
+                    "description": "The device's IANA time zone, such as `Africa/Lagos`.",
+                    "type": "string",
+                    "maxLength": 100
                   },
                   "permission": {
                     "type": "string",
@@ -15971,6 +16015,28 @@
                 "minLength": 1,
                 "maxLength": 128,
                 "description": "Your own stable id for the device; registering it again updates it."
+              },
+              "appVersion": {
+                "description": "The app's version string, such as `2.4.0`. Not sent from the web.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "osVersion": {
+                "description": "The operating system version, such as `17.4.1`. Not sent from the web.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "locale": {
+                "description": "The device's language, a BCP 47 tag such as `en-GB`.",
+                "type": "string",
+                "maxLength": 35
+              },
+              "timezone": {
+                "description": "The device's IANA time zone, such as `Africa/Lagos`.",
+                "type": "string",
+                "maxLength": 100
               },
               "permission": {
                 "type": "string",
@@ -18183,7 +18249,7 @@
           "critical"
         ],
         "additionalProperties": false,
-        "description": "Where the bands start, the workspace's own lines: `watch` where its admins are warned, `critical` where its marketing email pauses. The pause is judged on all of the workspace's marketing email over the last 24 hours (or week, for a small sender), not on one report."
+        "description": "Where the bands start, the workspace's own lines: `watch` where its admins are warned, `critical` where its marketing email pauses. The pause is judged on all of the email the workspace's provider accepted, transactional included, over the last 24 hours (or week, for a small sender), not on one report."
       },
       "DeliverabilityHealth": {
         "type": "object",
@@ -23902,6 +23968,21 @@
                 "minimum": 0,
                 "description": "All devices targeted."
               },
+              "delivered": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Devices that reported the notification shown. iOS reports it only with the app’s notification service extension."
+              },
+              "directOpens": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Devices the notification was tapped on."
+              },
+              "influencedOpens": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Devices whose app opened within 24 hours of the push, without a tap, with no later push before the open."
+              },
               "byPlatform": {
                 "type": "object",
                 "properties": {
@@ -23952,6 +24033,21 @@
                         "type": "integer",
                         "minimum": 0,
                         "description": "All devices targeted."
+                      },
+                      "delivered": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices that reported the notification shown. iOS reports it only with the app’s notification service extension."
+                      },
+                      "directOpens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices the notification was tapped on."
+                      },
+                      "influencedOpens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices whose app opened within 24 hours of the push, without a tap, with no later push before the open."
                       }
                     },
                     "required": [
@@ -23963,7 +24059,10 @@
                       "retryable",
                       "unknown",
                       "skipped",
-                      "total"
+                      "total",
+                      "delivered",
+                      "directOpens",
+                      "influencedOpens"
                     ],
                     "additionalProperties": false
                   },
@@ -24014,6 +24113,21 @@
                         "type": "integer",
                         "minimum": 0,
                         "description": "All devices targeted."
+                      },
+                      "delivered": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices that reported the notification shown. iOS reports it only with the app’s notification service extension."
+                      },
+                      "directOpens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices the notification was tapped on."
+                      },
+                      "influencedOpens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices whose app opened within 24 hours of the push, without a tap, with no later push before the open."
                       }
                     },
                     "required": [
@@ -24025,7 +24139,10 @@
                       "retryable",
                       "unknown",
                       "skipped",
-                      "total"
+                      "total",
+                      "delivered",
+                      "directOpens",
+                      "influencedOpens"
                     ],
                     "additionalProperties": false
                   },
@@ -24076,6 +24193,21 @@
                         "type": "integer",
                         "minimum": 0,
                         "description": "All devices targeted."
+                      },
+                      "delivered": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices that reported the notification shown. iOS reports it only with the app’s notification service extension."
+                      },
+                      "directOpens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices the notification was tapped on."
+                      },
+                      "influencedOpens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Devices whose app opened within 24 hours of the push, without a tap, with no later push before the open."
                       }
                     },
                     "required": [
@@ -24087,7 +24219,10 @@
                       "retryable",
                       "unknown",
                       "skipped",
-                      "total"
+                      "total",
+                      "delivered",
+                      "directOpens",
+                      "influencedOpens"
                     ],
                     "additionalProperties": false
                   }
@@ -24105,6 +24240,9 @@
               "unknown",
               "skipped",
               "total",
+              "delivered",
+              "directOpens",
+              "influencedOpens",
               "byPlatform"
             ],
             "additionalProperties": false,
@@ -31205,7 +31343,7 @@
               "type": "string"
             },
             "additionalProperties": {},
-            "description": "A whole delivery body: trigger samples for Zapier, Make and n8n."
+            "description": "A whole delivery body: trigger samples for Zapier and n8n."
           }
         },
         "required": [
@@ -34934,6 +35072,16 @@
                   "type": "integer",
                   "minimum": 0
                 },
+                "openUntracked": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Delivered, but sent without open tracking: rate opens over `delivered` minus this."
+                },
+                "clickUntracked": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Delivered, but sent without click tracking: rate clicks over `delivered` minus this."
+                },
                 "bounced": {
                   "type": "integer",
                   "minimum": 0
@@ -34961,6 +35109,8 @@
                 "openedByMachine",
                 "clicked",
                 "clickedByMachine",
+                "openUntracked",
+                "clickUntracked",
                 "bounced",
                 "complained",
                 "unsubscribed",
@@ -35000,6 +35150,16 @@
                     "type": "integer",
                     "minimum": 0
                   },
+                  "openUntracked": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Delivered, but sent without open tracking: rate opens over `delivered` minus this."
+                  },
+                  "clickUntracked": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Delivered, but sent without click tracking: rate clicks over `delivered` minus this."
+                  },
                   "bounced": {
                     "type": "integer",
                     "minimum": 0
@@ -35020,6 +35180,8 @@
                   "openedByMachine",
                   "clicked",
                   "clickedByMachine",
+                  "openUntracked",
+                  "clickUntracked",
                   "bounced",
                   "complained",
                   "unsubscribed"
@@ -35110,6 +35272,34 @@
               "null"
             ]
           },
+          "appVersion": {
+            "description": "The app's version, as last registered.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "osVersion": {
+            "description": "The OS version, as last registered.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "locale": {
+            "description": "The device's language, as last registered.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "timezone": {
+            "description": "The device's time zone, as last registered.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -35127,6 +35317,10 @@
           "invalidatedAt",
           "lastSeenAt",
           "sdk",
+          "appVersion",
+          "osVersion",
+          "locale",
+          "timezone",
           "createdAt"
         ],
         "additionalProperties": false
@@ -41076,7 +41270,11 @@
                           "active": true,
                           "invalidatedAt": null,
                           "lastSeenAt": "2026-10-01T09:30:00.000Z",
-                          "sdk": "ios-sdk/1.0.0",
+                          "sdk": "kirora-ios/1.0.0",
+                          "appVersion": "2.4.0",
+                          "osVersion": "17.4.1",
+                          "locale": "en-NG",
+                          "timezone": "Africa/Lagos",
                           "createdAt": "2026-09-12T08:20:00.000Z"
                         }
                       ],
@@ -41151,7 +41349,11 @@
                     "externalInstallationId": "device-amaka-iphone",
                     "permission": "granted",
                     "targetKind": "apns_token",
-                    "target": "740f4707bebcf74f9b7c25d48e3358945f6aa01da5ddb387462c7eaf61bb78ad"
+                    "target": "740f4707bebcf74f9b7c25d48e3358945f6aa01da5ddb387462c7eaf61bb78ad",
+                    "appVersion": "2.4.0",
+                    "osVersion": "17.4.1",
+                    "locale": "en-NG",
+                    "timezone": "Africa/Lagos"
                   }
                 },
                 "browser": {
@@ -41254,7 +41456,11 @@
                         "active": true,
                         "invalidatedAt": null,
                         "lastSeenAt": "2026-10-01T09:30:00.000Z",
-                        "sdk": "ios-sdk/1.0.0",
+                        "sdk": "kirora-ios/1.0.0",
+                        "appVersion": "2.4.0",
+                        "osVersion": "17.4.1",
+                        "locale": "en-NG",
+                        "timezone": "Africa/Lagos",
                         "createdAt": "2026-09-12T08:20:00.000Z"
                       }
                     }
@@ -41312,7 +41518,11 @@
                         "active": true,
                         "invalidatedAt": null,
                         "lastSeenAt": "2026-10-01T09:30:00.000Z",
-                        "sdk": "ios-sdk/1.0.0",
+                        "sdk": "kirora-ios/1.0.0",
+                        "appVersion": "2.4.0",
+                        "osVersion": "17.4.1",
+                        "locale": "en-NG",
+                        "timezone": "Africa/Lagos",
                         "createdAt": "2026-09-12T08:20:00.000Z"
                       }
                     }
@@ -52096,6 +52306,8 @@
                             "openedByMachine": 0,
                             "clicked": 151,
                             "clickedByMachine": 12,
+                            "openUntracked": 0,
+                            "clickUntracked": 0,
                             "bounced": 18,
                             "complained": 1,
                             "unsubscribed": 2
@@ -52108,6 +52320,8 @@
                             "openedByMachine": 322,
                             "clicked": 38,
                             "clickedByMachine": 2,
+                            "openUntracked": 0,
+                            "clickUntracked": 0,
                             "bounced": 5,
                             "complained": 0,
                             "unsubscribed": 1
@@ -65236,7 +65450,7 @@
         "tags": [
           "webhooks"
         ],
-        "description": "Registers an HTTPS endpoint for the listed events, or `*` for every event including ones added later. Deliveries are signed with the returned `secret` (only this answer and a keyed replay of it within 24 hours carry it; reads never do), retried with backoff, and paused by a circuit breaker while the endpoint keeps failing; see the webhooks guide. This is the subscribe call Zapier, Make and n8n make when a workflow turns on. A URL already subscribed returns 409 `ALREADY_EXISTS`; edit its events instead. Agent keys cannot hold `webhooks:write`.\n\nRequires API-key scope: `webhooks:write`.",
+        "description": "Registers an HTTPS endpoint for the listed events, or `*` for every event including ones added later. Deliveries are signed with the returned `secret` (only this answer and a keyed replay of it within 24 hours carry it; reads never do), retried with backoff, and paused by a circuit breaker while the endpoint keeps failing; see the webhooks guide. This is the subscribe call Zapier and n8n make when a workflow turns on. A URL already subscribed returns 409 `ALREADY_EXISTS`; edit its events instead. Agent keys cannot hold `webhooks:write`.\n\nRequires API-key scope: `webhooks:write`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -65626,7 +65840,7 @@
         "tags": [
           "webhooks"
         ],
-        "description": "Deletes the subscription; nothing more is delivered to it. Deleting it again is 404, which Zapier, Make and n8n treat as already done. Refused with 409 `IN_USE` while an action step of an active or paused journey sends to it (`details.journeys`).\n\nRequires API-key scope: `webhooks:write`.",
+        "description": "Deletes the subscription; nothing more is delivered to it. Deleting it again is 404, which Zapier and n8n treat as already done. Refused with 409 `IN_USE` while an action step of an active or paused journey sends to it (`details.journeys`).\n\nRequires API-key scope: `webhooks:write`.",
         "parameters": [
           {
             "schema": {
